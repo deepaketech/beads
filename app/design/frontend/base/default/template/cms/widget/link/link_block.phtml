@@ -1,0 +1,4 @@
+<?php if($this->getAnchorText()=='Quick Order'){ $qorderhide = "style='display:none;'"; } ?>
+<span class="widget widget-cms-link" <?php echo $qorderhide ?>>
+           <a <?php echo $this->getLinkAttributes() ?>>
+<span><?php echo $this->escapeHtml($this->getAnchorText()) ?></span></a></span>

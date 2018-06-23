@@ -1,0 +1,5 @@
+#breadcrumbs-label { float:left; margin-right:5px; font-size:12px; text-transform: uppercase; font-family:"Raleway", "Helvetica Neue", Verdana, Arial, sans-serif; }
+#breadcrumbs { float:left; }
+#breadcrumbs ul { clear: both; }
+.breadcrumbs { overflow: auto; }
+.breadcrumbs li { margin-right:5px; }

@@ -1,0 +1,114 @@
+<?php 
+
+ /***************************************************************************
+	Extension Name 	: Import Export Products Extension for Simple Products | Configurable Products | Bundle Products | Group    Products | Downloadable Products
+	Extension URL   : http://www.magebees.com/magento-import-export-products-extension.html 
+	Copyright  		: Copyright (c) 2015 MageBees, http://www.magebees.com
+	Support Email   : support@magebees.com 
+ ***************************************************************************/ 
+
+?>
+<style>
+.sample-csv-item{margin:1px;/* border:1px dotted black; */}
+.sample-csv-item h3{background:#666e73;color:white;padding:3px 3px 3px 10px;}
+.sample-csv-item ul{margin:10px}
+.sample-csv-item a {font-size: 14px;text-decoration: none;}				
+</style>				
+<div id="sample_csv_content">
+
+<div class="sample-csv-item">
+<h3><?php echo $this->__("Simple Products Sample CSV") ?></h3>
+<ul class="sample-csv-ul">
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/all_import_products.csv"><?php echo $this->__("All Products Columns Sample Import CSV") ?></a>
+	</li>
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_with_minimum_field.csv"><?php echo $this->__("Import with Min Required Fields") ?></a>
+	</li>
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/new_product_import_with_custom_options.csv"><?php echo $this->__("Import with Custom Options") ?></a>
+	</li>										
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_with_category.csv"><?php echo $this->__("Import with Category") ?></a>
+	</li>
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_with_subcategories.csv"><?php echo $this->__("Import with Sub-Category") ?></a>
+	</li>
+
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_with_categoryIDs.csv"><?php echo $this->__("Import with Category IDs") ?></a>
+	</li>
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_with_multi_store.csv"><?php echo $this->__("Import with Multi Store CSV") ?></a>
+	</li>
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_with_multi_website.csv"><?php echo $this->__("Import with Multi Website CSV") ?></a>
+	</li>
+</ul>
+	<div class="sample-csv-item">
+		<h3><?php echo $this->__("Configurable Products CSV") ?></h3>
+		<ul class="sample-csv-ul">
+			<li>
+				<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_configurable_products.csv"><?php echo $this->__("Import Configurable Products with Simple Products") ?></a>
+			</li>
+		</ul>
+	</div>
+	<div class="sample-csv-item">
+		<h3><?php echo $this->__("Bundle Products CSV") ?></h3>
+		<ul class="sample-csv-ul">
+			<li>
+				<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_bundle_products.csv"><?php echo $this->__("Import Bundle Products with Simple Products"); ?></a>
+			</li>
+		</ul>
+	</div>						
+	<div class="sample-csv-item">
+		<h3><?php echo $this->__("Grouped Products CSV"); ?></h3>
+		<ul class="sample-csv-ul">
+			<li>
+				<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_grouped_products.csv"><?php echo $this->__("Import Grouped Products with Simple Products"); ?></a>
+			</li>
+		</ul>
+	</div>	
+	<div class="sample-csv-item">
+		<h3><?php echo $this->__("Downloadable Products CSV") ?></h3>
+		<ul class="sample-csv-ul" >
+			<li>
+				<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/import_downloadable_products.csv"><?php echo $this->__("Import Downloadable Products with Simple Products"); ?></a>
+			</li>
+		</ul>
+	</div>
+	<div class="sample-csv-item" style="clear:both;width:100%;height:140px">
+		<h3><?php echo $this->__("Update Products CSV"); ?></h3>
+		<ul class="sample-csv-ul">
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/update_quantity.csv"><?php echo $this->__("Update Quantity"); ?></a>
+	</li>
+
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/update_price.csv"><?php echo $this->__("Update Price"); ?></a>
+	</li>					
+	
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/update_images.csv"><?php echo $this->__("Update Images With Labels"); ?></a>
+	</li>
+			
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/assign_related_upsell_crossell_products.csv"><?php echo $this->__("Assign Related, Upsell & Crosssell Products"); ?>
+		</a>
+	</li>
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/assign_group_price.csv"><?php echo $this->__("Assign Group Price"); ?></a>
+	</li>
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/assign_tier_price.csv"><?php echo $this->__("Assign Tier Price"); ?></a>
+	</li>
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/storewise-custom-option-update.csv"><?php echo $this->__("Update Custom Options Store Wise") ?></a>
+	</li>
+	<li>
+		<a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/delete-products.csv"><?php echo $this->__("Delete Products"); ?></a>
+	</li>
+</ul>
+</div>
+</div>
+</div>

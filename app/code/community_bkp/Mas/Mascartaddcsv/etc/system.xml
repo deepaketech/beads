@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mas_mascartaddcsv extension by Makarovsoft.com
+ * 
+ * @category   	Mas
+ * @package		Mas_mascartaddcsv
+ * @copyright  	Copyright (c) 2014
+ * @license		http://makarovsoft.com/license.txt
+ * @author		makarovsoft.com
+ */
+-->
+<config>
+ 	<sections>
+		<mascartaddcsv translate="label" module="mascartaddcsv">
+			<class>separator-top</class>
+			<label>Bulk Add To Cart From CSV</label>
+			<tab>mas</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>100</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>						
+				<customer translate="label" module="mascartaddcsv">
+					<label>General Settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>30</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>						
+						<enabled translate="label" module="mascartaddcsv">
+							<label>Show Add To Cart block in Customer Dashboard?</label>
+							<frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+                            <comment><![CDATA[If allowed, link to "Bulk Add To Cart" block will be displayed in menu at customer dashboard page]]></comment>
+						</enabled>
+						<text_above translate="label" module="mascartaddcsv">
+							<label>Text above Upload Form</label>
+							<frontend_type>textarea</frontend_type>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+                            <comment><![CDATA[Text to be shown to customer above "Bulk Add To Cart" block in customer dashboard section. HTML tags are allowed]]></comment>
+						</text_above>
+						<column_delimiter translate="label" module="mascartaddcsv">
+							<label>Columns Delimiter</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+                            <comment><![CDATA[Columns delimiter in uploaded CSV, I.e. "," or ";" (without quotes)]]></comment>
+						</column_delimiter>
+					</fields>
+				</customer>						
+			</groups>
+		</mascartaddcsv>
+	</sections>
+</config> 

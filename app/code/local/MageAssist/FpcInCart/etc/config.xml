@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <MageAssist_FpcInCart>
+            <version>0.0.1</version>
+        </MageAssist_FpcInCart>
+    </modules>
+
+    <global>
+        <models>
+            <ma_fpcincart>
+                <class>MageAssist_FpcInCart_Model</class>
+            </ma_fpcincart>
+        </models>
+    </global>
+
+    <frontend>
+        <events>
+            <http_response_send_before>
+                <observers>
+                    <ma_fpcincart>
+                        <class>MageAssist_FpcInCart_Model_Observer</class>
+                        <method>onHttpResponseSendBefore</method>
+                    </ma_fpcincart>
+                </observers>
+            </http_response_send_before>
+
+            <controller_action_postdispatch>
+                <observers>
+                    <ma_fpcincart>
+                        <class>MageAssist_FpcInCart_Model_Observer</class>
+                        <method>handleActionPostDispatch</method>
+                    </ma_fpcincart>
+                </observers>
+            </controller_action_postdispatch>
+        </events>
+    </frontend>
+</config>

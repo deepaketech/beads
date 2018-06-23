@@ -1,0 +1,33 @@
+<?php
+$category = Mage::getSingleton('catalog/layer')->getCurrentCategory();
+$categories = $category->getCollection()
+        ->addAttributeToSelect(array('name', 'thumbnail'))
+        ->addAttributeToFilter('include_in_menu', 0)
+        ->addAttributeToFilter('level', 3)
+        //->addIdFilter($category->getChildren())
+?>
+<ul class="subcategories">
+    <?php foreach ($categories as $category): ?>
+        <li style="float:left;">
+        <div class="level3bg">
+        <a  href="<?php echo $category->getUrl() ?>"><span><?php echo $category->getName() ?></span></a>
+        </div>
+        <div class="levelimgbg">
+            <a  href="<?php echo $category->getUrl() ?>"><img  height="100" width="120" src="<?php echo Mage::getBaseUrl('media') . 'catalog' . DS . 'category' . DS . $category->getThumbnail() ?>" alt="<?php echo $this->htmlEscape($category->getName()) ?>" />
+               </a>
+        </div>       
+        </li>
+    <?php endforeach; ?>
+</ul>
+
+<style type="text/css">
+	.levelimgbg{
+		margin:0 20px 0px 0px;
+	}
+    .level3bg{
+	 margin: 0 0 0 22px;
+    
+    padding: 0 0 15px 3px;
+    }
+</style>
+

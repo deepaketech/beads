@@ -1,0 +1,109 @@
+<?php $_product = $this->getProductid() ?>
+<?php ($_product); 
+$product = Mage::getModel('catalog/product')->load($_product); ?>
+<div class="actions">
+     <?php if(Mage::getStoreConfig("porto_settings/category/qty_field", $code)):?>
+            <?php if($product->isSaleable()): ?>
+                   <?php  if ( !($product->getTypeInstance(true)->hasOptions($product) || $product->isGrouped()) ) :  ?>
+                          <?php if(!Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>
+<form id="addtocart_form_<?php echo $product->getId()."_".$rnd_str; ?>" action="<?php echo $this->getAddToCartUrl($product) ?>" method="post">
+<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+<?php endif; ?>
+                                <div class="qty-field">
+                                    <label for="qty"><?php echo $this->__('Qty:') ?></label>
+                                    <div class="qty-holder">
+                                        <input type="text" name="qty" id="qty_<?php echo $product->getId(); ?>" maxlength="12" value="<?php echo ($this->getMinimalQty($product)?$this->getMinimalQty($product):1) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                                        <div class="qty-changer">
+                                            <a href="javascript:void(0)" class="qty_inc_<?php echo $product->getId(); ?>"><i class="icon-up-dir"></i></a>
+                                            <a href="javascript:void(0)" class="qty_dec_<?php echo $product->getId(); ?>"><i class="icon-down-dir"></i></a>
+                                        </div>
+
+
+  <?php
+  $productData = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
+  $qtyIncdec = $productData->getQtyIncrements();
+  ?>                                  
+                              </div>
+                                </div>
+                                <?php if(!Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>
+                                </form>
+                                <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                            <a href="<?php if(Mage::getStoreConfig("ajaxcart/addtolinks/enablecategory", $code)):?>javascript:void(0)<?php else: ?><?php echo $this->helper('wishlist')->getAddUrl($product) ?><?php endif; ?>" <?php if(Mage::getStoreConfig("ajaxcart/addtolinks/enablecategory", $code)):?>onclick="ajaxWishlist(this,'<?php echo $this->helper('wishlist')->getAddUrl($product) ?>','<?php echo $product->getId()?>');"<?php endif;?> class="addtowishlist" title="<?php echo $this->__('Add to Wishlist') ?>"><i class="icon-wishlist"></i></a>
+                        <?php endif; ?>
+                        
+                    <?php if(Mage::getSingleton('customer/session')->isLoggedIn()):?>  
+                    <?php $productId = (int)$product->getId();?>
+                     <?php if($product->isSaleable()): ?>
+
+                             <?php  if ( !($product->getTypeInstance(true)->hasOptions($product)/*$product->getData('has_options')*/ || $product->isGrouped()) ) :  ?>
+
+                                <a href="<?php if(!Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code) && !Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?><?php echo $this->getAddToCartUrl($product) ?><?php else: ?>javascript:void(0)<?php endif; ?>" class="addtocart" id="ajax_<?php echo $product->getId(); ?>" title="<?php echo $this->__('Add to Cart') ?>" onclick="checkqty_home_<?php echo $product->getId()?>(this,'<?php echo $this->getAddToCartUrl($product) ?>','<?php echo $product->getId(); ?>')" data-product-id="<?= $productId; ?>" data-replace-incart="<?= $this->__('In cart'); ?>"><i class="icon-cart"></i><span>&nbsp;<?php echo $this->__('Add to Cart') ?></span></a>
+                            <?php else : ?>
+
+                                <a href="<?php if(Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>javascript:showOptions('<?php echo $product->getId()?>')<?php else: ?><?php echo $this->getAddToCartUrl($product) ?><?php endif; ?>" class="addtocart" title="<?php echo $this->__('Add to Cart') ?>" data-product-id="<?= $productId; ?>" data-replace-incart="<?= $this->__('In cart'); ?>"><i class="icon-cart"></i><span>&nbsp;<?php echo $this->__('Add to Cart') ?></span></a>
+                                <a href='<?php echo $this->getUrl('ajaxcart/index/options',array('product_id'=>$product->getId()));?>'  class='fancybox' id='fancybox<?php echo $product->getId()?>' style='display:none'>Options</a>
+                            <?php endif;?>
+                        <?php else: ?>
+                            <a href="javascript:void(0);" class="addtocart outofstock" title="<?php echo $this->__('Out of stock') ?>"><?php echo $this->__('Out of stock') ?></span></a>
+                        <?php endif; ?>
+
+                      <?php else:?>
+                           <span class="login_for_price"><strong><a href="<?php echo Mage::getUrl('customer/account/login'); ?>">Login to add to cart</a></strong></span></br></br>
+
+                           <?php endif;?>   
+                        
+  
+<style type="text/css">
+    .incart .addtocartnew {
+        background-color: #e9c344 !important;
+    }
+</style> 
+
+
+                        <?php if(Mage::getStoreConfig("porto_settings/category/compare", $code) && $_compareUrl=$this->getAddToCompareUrl($product)): ?>
+                            <a href="<?php if(Mage::getStoreConfig("ajaxcart/addtolinks/enablecategory", $code)):?>javascript:void(0)<?php else: ?><?php echo $_compareUrl ?><?php endif; ?>" <?php if(Mage::getStoreConfig("ajaxcart/addtolinks/enablecategory", $code)):?>onclick="ajaxCompare(this,'<?php echo $_compareUrl ?>','<?php echo $product->getId()?>');"<?php endif; ?> class="comparelink" title="<?php echo $this->__('Add to Compare') ?>"><i class="icon-compare"></i></a>
+                        <?php endif; ?>
+                        <div class="clearer"></div>
+                    </div>
+ <script>
+jQuery(function() {
+jQuery('.qty_inc_<?php echo $product->getId(); ?>').click(function() {
+    var oldValue = jQuery('#qty_<?php echo $product->getId(); ?>').val();
+    var newVal = parseFloat(oldValue) + <?php echo $qtyIncdec;?>;
+    jQuery('#qty_<?php echo $product->getId(); ?>').val(newVal);
+});
+jQuery('.qty_dec_<?php echo $product->getId(); ?>').click(function() {
+    var oldValue = jQuery('#qty_<?php echo $product->getId(); ?>').val();
+    if(oldValue > <?php echo $qtyIncdec;?>) {
+        var newVal = parseFloat(oldValue) - <?php echo $qtyIncdec;?>;
+    }else{
+         newVal = <?php echo $qtyIncdec;?>;
+    }
+    jQuery('#qty_<?php echo $product->getId(); ?>').val(newVal);
+});
+});
+function checkqty_home_<?php echo $product->getId()?>(el,url,id,type)
+{	
+	var defaultqty ='<?php echo $qtyIncdec ?>';
+	var userqty = jQuery('#qty_<?php echo $product->getId(); ?>').val();
+	if (userqty%defaultqty!=0)
+	{
+		alert("This product is available for purchase in increments <?php echo $qtyIncdec ?> only and minimum qty is <?php echo $qtyIncdec ?>");	
+	}
+	else
+	{
+		jQuery('#loading-mask').show();
+		jQuery(el).parent().parent().parent().children(".product-image-area").children(".loader-container").show();
+		jQuery(el).parent().children(".loader-container").show();
+		<?php if(Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>
+			setLocationAjax(this,'<?php echo $this->getAddToCartUrl($product) ?>','<?php echo $product->getId(); ?>');
+		<?php elseif(Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?>
+			document.getElementById('addtocart_form_<?php echo $product->getId(); ?>').submit();
+		<?php endif; ?>
+	}	
+}
+</script>

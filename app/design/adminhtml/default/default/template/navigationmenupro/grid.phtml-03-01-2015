@@ -1,0 +1,562 @@
+<!-- /***************************************************************************
+	@extension	: Navigation Menu Pro Extension
+	@copyright	: Copyright (c) 2014 Capacity Web Solutions.
+	( http://www.capacitywebsolutions.com )
+	@author		: Capacity Web Solutions Pvt. Ltd.
+	@support	: magento@capacitywebsolutions.com
+***************************************************************************
+/-->
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('navigationmenupro/js/jquery.min_1.11.0.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('navigationmenupro/js/jquery-ui.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('navigationmenupro/js/jquery.mjs.nestedSortable.js'); ?>"></script>
+<!-- USE Below Js for the sticky footer for the below button Save Order Expand All & Collapse All Button.-->
+<!--<script type="text/javascript" src="<?php //echo $this->getSkinUrl('navigationmenupro/js/jquery.ez-pinned-footer.js'); ?>"></script>-->
+<script>
+
+ 		jQuery().ready(function(){
+		
+		jQuery('#menucreator-tabs').tabs({
+			active: 0
+		});
+		var stickyNavTop = jQuery('.main-col').offset().top;             
+		stickyNav(stickyNavTop);  
+		jQuery(window).scroll(function() {  
+			stickyNav(stickyNavTop);  
+		});
+
+		var winHeight = jQuery(window).height(); 
+			footerTop = jQuery('#footerBut').offset().top;
+			boxWidth = jQuery('#navigation-pro div.side-col').width();
+			jQuery('#footerBut').css('width',boxWidth);
+		jQuery(window).scroll(function (event) {
+			var y = jQuery(this).scrollTop();
+			if (y+winHeight>footerTop) {
+				jQuery('#footerBut').addClass('noFixed');
+				jQuery('#footerBut').removeClass('fixed');
+			} else {
+				jQuery('#footerBut').addClass('fixed');
+				jQuery('#footerBut').removeClass('noFixed');
+			}
+		});
+		
+		var indexList = [];
+		var menuitemorderList = [];
+
+var Group_menus = jQuery('#navmenu ol.sortable')
+Group_menus.each(function() {
+    var topIndex = jQuery(this).attr('id');
+	jQuery(this).addClass(topIndex);
+	indexList.push((topIndex));    
+    
+})
+		var ns = jQuery('.sortable').nestedSortable({
+				connectWith: ".sortable",
+				forcePlaceholderSize: true,
+				handle: 'div',
+				helper:	'clone',
+				items: 'li',
+				opacity: .6,
+				placeholder: 'placeholder',
+				revert: 250,
+				tabSize: 25,
+				tolerance: 'pointer',
+				toleranceElement: '> div',
+				maxLevels: 10,
+				isTree: true,
+				expandOnHover: 700,
+				startCollapsed: false,
+				change: function(){
+					console.log('Relocated item');
+				}
+			});
+			
+			jQuery('.expandEditor').attr('title','Click to show/hide item editor');
+			jQuery('.disclose').attr('title','Click to show/hide children');
+			jQuery('.deleteMenu').attr('title', 'Click to delete item.');
+		
+			jQuery('.disclose').on('click', function() {
+				jQuery(this).closest('li').toggleClass('mjs-nestedSortable-collapsed').toggleClass('mjs-nestedSortable-expanded');
+				jQuery(this).toggleClass('ui-icon-plusthick').toggleClass('ui-icon-minusthick');
+			});
+			
+			jQuery('.expandEditor, .itemTitle').click(function(){
+				var id = jQuery(this).attr('data-id');
+				jQuery('#menuEdit'+id).toggle();
+				jQuery(this).toggleClass('ui-icon-triangle-1-n').toggleClass('ui-icon-triangle-1-s');
+			});
+			
+			jQuery('.deleteMenu').click(function(){
+				var id = jQuery(this).attr('data-id');
+				jQuery('#menuItem_'+id).remove();
+			});
+				
+			jQuery('#saveorder').click(function(){
+			
+			var menuitemorderList = [];
+				var all_menuitemorder = '';
+				
+				/*Add Group Id In the String of the data*/
+				for(i=0;i<indexList.length;i++)
+				{
+				
+				serialized = jQuery('ol.'+indexList[i]).nestedSortable('serialize');
+				menuitemorderList.push((serialized));
+				var id = indexList[i].replace("groupid-","");
+				var group_id = "&"+"group[id]="+id+"&";
+				serialized = group_id + serialized;
+				console.log("menuitemorderList"+serialized);
+				all_menuitemorder += serialized;
+				}
+				all_menuitemorder_data = all_menuitemorder;
+				
+				<?php $url = Mage::helper('adminhtml')->getUrl('navigationmenupro/adminhtml_menucreator/updateMenu');?>
+				var url = '<?php echo $url;?>';
+				var current_url = '<?php echo $current_url = Mage::helper('core/url')->getCurrentUrl(); ?>';
+				new Ajax.Request(url, {
+            method:'POST',
+			parameters: { menuitemorder : all_menuitemorder_data },
+            onSuccess: function(transport){
+			location.href = current_url;
+			if (transport.responseText){
+				
+	            }
+            }
+		});
+		all_menuitemorder_data = '';
+		all_menuitemorder = '';
+				
+				
+			})
+	
+		});			
+	
+		function dump(arr,level) {
+			var dumped_text = "";
+			if(!level) level = 0;
+	
+			//The padding given at the beginning of the line.
+			var level_padding = "";
+			for(var j=0;j<level+1;j++) level_padding += "    ";
+	
+			if(typeof(arr) == 'object') { //Array/Hashes/Objects
+				for(var item in arr) {
+					var value = arr[item];
+	
+					if(typeof(value) == 'object') { //If it is an array,
+						dumped_text += level_padding + "'" + item + "' ...\n";
+						dumped_text += dump(value,level+1);
+					} else {
+						dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
+					}
+				}
+			} else { //Strings/Chars/Numbers etc.
+				dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
+			}
+			return dumped_text;
+		}
+		function storeFilter(storeids)
+		{
+			if(storeids != 0){
+			var i=0;
+				jQuery("#navmenu ol li").each(function(){
+				i++;
+					var id = jQuery(this).attr("id");
+					if (jQuery(this).attr('store')) {
+					
+					if((id != 0)){
+						var menu_store = jQuery(this).attr("store");
+						var menuStoreArr = new Array();
+						menuStoreArr = menu_store.split(',');
+						
+						if(jQuery.inArray(storeids, menuStoreArr) != -1 || jQuery.inArray(0, menuStoreArr) != -1){
+							jQuery(this).css("display", "block");
+						}else{
+						jQuery(this).css("display", "none");
+						}
+					}
+					} else {
+					
+					}
+					
+					
+				});
+			}else{
+				/* When all store view selected */
+				jQuery("#navmenu ol li").each(function(){
+					jQuery(this).css("display", "block");
+				});
+			}
+		/* Set Sticky when Change the filter from the drop down of the store.*/
+		jQuery('#footerBut').addClass('noFixed');
+		jQuery('#footerBut').removeClass('fixed');
+		footersticky();
+		}
+
+</script>
+</head>
+<body>
+<div class="content-header">
+	<h3><?php echo $this->__('Manage Menu Items')?></h3>
+	<p class="form-buttons">
+		<button style="" id="add_new_btn" onClick="addnew()" class="add scalable " type="button" title="Add New"><span>Add New</span></button>
+		<button style="" onClick="editForm.submit();" class="scalable save" type="button" title="Save Menu Item" id="save_btn"><span>Save</span></button>
+		<button style="" id="cancel_btn"  onclick="cancel()" class="scalable " type="button" title="Add New"><span>Cancel</span></button>
+	</p>
+</div>
+<div id="page:main-container">
+	<div id="navigation-pro">
+		<div class="columns">
+			<div id="page:left" class="side-col">
+			<p class="switcher">
+				<?php $store_swatcher = Mage::helper('navigationmenupro')->getstore_swatcher();?>
+				<label for="store_switcher">Choose Store View </label>
+				<select id="store_switcher" name="store_switcher" onChange="storeFilter(this.value)">
+					<?php 
+						foreach($store_swatcher as $value){
+						if($value['value']==0){
+						?>
+						<option value="0"><?php echo $value['label']; ?></option>
+					<?php } else { ?>
+						<optgroup label="<?php echo $value['label']; ?>"></optgroup>
+					<?php
+				if(!empty($value['value'])){
+						foreach ($value['value'] as $option){
+							?>
+					<option value="<?php echo $option['value']; ?>"><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;".$option['label'];?></option>
+					<?php 
+						}
+					}
+				}
+				}
+				?>
+				</select>
+				</p>
+				<?php 
+ 			$menu_backend = $this->group_menu_tree();
+			echo $menu_backend;
+ ?>
+				<div id="deletedialog" style="display:none;">
+					<form class="deletemenuitem-form" action="#" id="deletemenuitem">
+						<span class="deleteMenu ui-icon ui-icon-closethick" title="Close"><span></span></span>
+						<h3>Delete Menu Item Options</h3>
+						<input type="radio" id="deleteparent"  name="deleteoption" value="deleteparent" checked="checked">
+						<label for="deleteparent">Delete Parent Menu Item Only </label>
+						<br/>
+						<br/>
+						<input type="radio" id="deleteparentchild" name="deleteoption" value="deleteparentchild">
+						<label for="deleteparentchild">Delete Parent And Child Both Menu Items</label>
+						<br/>
+						<br/>
+						<input type="button" id="deleteitem" name="deleteitem" value="Delete"/>
+						<input type="button" id="cancelitem" name="cancelitem" value="Cancel" />
+						<br/>
+					</form>
+				</div>
+				<div id="footerBut">
+					<button id="saveorder" name="saveorder" class="scalable save " type="button" title="SaveOrder"><span>SaveOrder</span></button>
+					<button style="" id="expandall" onClick="expandall();" name="expanded" class="scalable " type="button" title="Expand All"><span><span><span>Expand All</span></span></span></button>
+					<button style="" id="collapsed" onClick="collapseall();" name="expanded" class="scalable " type="button" title="Collapse All"><span><span><span>Collapse All</span></span></span></button>
+				</div>
+			</div>
+			<div class="main-col" id="content">
+				<div class="main-col-inner">
+					<form id="edit_form"  method="post" action="<?php echo Mage::helper("adminhtml")->getUrl("navigationmenupro/adminhtml_menucreator/save/");?>" enctype="multipart/form-data" >
+						<?php 
+$menuType = Mage::helper('navigationmenupro')->getallMenuTypes();
+$getallLink = Mage::helper('navigationmenupro')->getallLinks();
+ ?>
+						<div class="sticky-content-header">
+							<h3 align="center">
+								<p id="menu_title">Create New Menu Item</p>
+							</h3>
+						</div>
+						<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+						<input type="hidden" value="" name="menu_id" id="menu_id">
+						<input name="current_menu_id" id="current_menu_id" type="hidden"/>
+						<input type="hidden" name="image_path" id="image_path" value="<?php echo Mage::getBaseUrl('media')."navigationmenupro/image/";?>"/>
+						<div id="menucreator-tabs">
+							<ul>
+								<li><a href="#general-option">General Options</a></li>
+								<li><a href="#advance-option">Advance Options</a></li>
+							</ul>
+							<div id="general-option">
+								<ul class="fieldSet">
+									<li class="fields">
+										<div class="field">
+											<label class="label required-label" data-toggle="tooltip" data-placement="bottom" title="The type of link: CMS Page, Category Page, Form ...">Menu Item Type <em>*</em></label>
+											<select id="type" name="type" class="required-entry select" onChange="menutype(this.value)">
+												<option value="">Select Menu type</option>
+												<optgroup label="Top url types">
+												<?php foreach($menuType as $key => $value):?>
+												<option value="<?php echo $key;?>"><?php echo $value;?></option>
+												<?php endforeach;?>
+												</optgroup>
+												<optgroup label="Mosted Used Links">
+												<?php foreach($getallLink as $key => $value):?>
+												<option value="<?php echo $key;?>"><?php echo $value;?></option>
+												<?php endforeach;?>
+												</optgroup>
+											</select>
+										</div>
+										<div class="field">
+											<label class="label required-label" title="">Status</label>
+											<select id="status" class="required-entry select" name="status">
+												<?php 
+													$menu_status = Mage::getModel('navigationmenupro/status')->getOptionArray();
+													foreach ($menu_status as $key => $status) {
+														echo "<option value='".$key."'>".$status."</option>";
+													}
+												?>
+											</select>
+										</div>
+									</li>
+									<li class="fields column3" id="category_content" style="display:none;">
+										<div class="field">
+											<label class="label required-label" data-toggle="tooltip" data-placement = "bottom" title="The type of link: CMS Page, Category Page, Form ...">Select Category <em>*</em></label>
+											<select id="category_id"  disable="true" name="category_id" class="required-entry" onChange="cat_title()">
+												<option value="">Select Category</option>
+												<?php 
+													$categories = Mage::getModel('catalog/category')->getCollection()
+														->addAttributeToSelect('*')
+														->addAttributeToFilter('level', 1)
+														->addAttributeToFilter('is_active', 1);
+													$parent_categories = $categories->getData();
+													foreach($parent_categories as $key => $value):
+													$this->category_list[$value['entity_id']] = $this->getTreeCategories($value['entity_id'],true);
+													$parent_category = Mage::getModel('catalog/category')->load($value['entity_id']);
+													$Categories_list = Mage::getModel("navigationmenupro/menucreator")->getCategorieslist($value['entity_id'],true);
+													if($Categories_list != ''){
+														echo "<optgroup label=".$parent_category->getName()."><option value=".$parent_category->getId().">".$parent_category->getName()."</option>";
+														echo $Categories_list;
+														echo "</optgroup>";
+													}
+													endforeach;
+												?>
+											</select>
+										</div>
+										<div class="field" id="category_image_type" style="display:none;">
+											<label class="label">Show Category Image</label>
+											<select  name="image_type" id="image_type">
+												<option value = "none">None</option>
+												<option value = "thumbnail_image">Show category thumbnail image in menu</option>
+												<option value = "main_image">Show category image in menu</option>
+											</select>
+										</div>
+										<div class="field" id="category_content_option" style="display:none;">
+											<label for="autosub"><input type="checkbox" disable="true" value="0" onclick="this.value = this.checked ? 1 : 0;" value="" name="autosub" id="autosub"> Show Auto Sub-Categories</label><br />
+											<label for="autosubimage"><input type="checkbox" disable="true" value="0" onclick="this.value = this.checked ? 1 : 0;" value="" name="autosubimage" id="autosubimage"> Show Images For Sub-Categories</label><br />
+											
+										</div>
+									</li>
+									<li class="fields" id="select_cms_pages" style="display:none;">
+										<div class="field">
+											<label class="control-label required-label"  title="">Select Cms Pages <em>*</em></label>
+											<select id="cmspage_identifier" name="cmspage_identifier" disable="true" class="required-entry select" onChange="cms_title()">
+												<option value=''>Please Select Cms Page</option>
+												<?php
+													$cms_pages_collection = Mage::getModel('cms/page')->getCollection();
+													foreach($cms_pages_collection as $cms_key => $cms_value):
+													if($cms_value->getIsActive() == "1")
+													{
+												?>
+													<option value="<?php echo $cms_value->getIdentifier();?>"><?php echo $cms_value->getTitle();?></option>
+												<?php 
+												}endforeach; ?>
+											</select>
+										</div>
+									</li>
+									<li class="fields" id="select_static_block" style="display:none;">
+										<div class="field">
+											<label class="control-label required-label"  title="">Select Static Block <em>*</em></label>
+											<select id="staticblock_identifier" disable="true" name="staticblock_identifier" class="required-entry select" onChange="staticblock_title();">
+												<option value=''>Please Select Static Block</option>
+												<?php
+													$static_block_collection = Mage::getModel('cms/block')->getCollection();
+													foreach($static_block_collection as $static_key => $static_value):
+												if($static_value->getIsActive() == "1")
+												{
+												?>
+													<option value="<?php echo $static_value->getIdentifier();?>"><?php echo $static_value->getTitle();?></option>
+												<?php 
+												
+												}
+												endforeach; ?>
+											</select>
+										</div>
+										<div class="field" id="show_hide_menu_title" style="display:none;">
+											<label class="control-label required-label"  title="">Show / Hide Menu Title<em>*</em></label>
+											<select id="title_show_hide" disable="true" name="title_show_hide"class="required-entry select">
+												<option value=''>Please Select Show / Hide Menu Title</option>
+												<option value='show'>Show</option>
+												<option value='hide'>Hide</option>
+											</select>
+										</div>
+									</li>
+									<li class="fields" id="product_page" style="display:none;">
+										<div class="field">
+											<label class="control-label required-label"  title="">Product Id<em>*</em></label>
+											<input type="text" id="product_id" disable="true" value="" name="product_id" class="required-entry input-text validate-digits" placeholder="Enter product id..." />
+										</div>
+									</li>
+									<li class="fields" id="custom_url" style="display:none;">
+										<div class="field">
+											<label class="control-label required-label"  title="">Custom Url <em>*</em></label>
+											<input type="text" id="url_value" value="" disable="true" name="url_value" class="required-entry input-text" placeholder="Enter url here..." />
+										</div>
+										<div class="field" id="custom_link_content_option" style="display:block;">
+											<label for="useexternalurl"><input type="checkbox" disable="true" value="0" onclick="this.value = this.checked ? 1 : 0;" value="" name="useexternalurl" id="useexternalurl"> External URL </label><br />
+										</div>
+									</li>
+									<li class="fields" id="menu_title_check">
+										<div class="field">
+											<label class="control-label required-label"  title="">Menu Title <em>*</em></label>
+											<input type="text" id="title" name="title"  class="span3 required-entry input-text" placeholder="Enter title here..." />
+										</div>
+										<div class="field">
+											<label class="label" title="">Add Custom Class</label>
+											<input type="text" id="class_subfix" name="class_subfix" class="input-text" placeholder="Enter class name" />
+										</div>
+									</li>
+									<li class="fields">
+										<div class="field required-entry" id="group_id_content">
+											<label title="" class="label required-label">Assign Menu Group <em>*</em></label>
+											<?php $url = Mage::helper('adminhtml')->getUrl('navigationmenupro/adminhtml_menudata/parent');?>
+											<input type="hidden" name="parent_url" id="parent_url" value="<?php echo $url;?>"/>
+											<select id="group_id" class="required-entry select" name="group_id" onChange="parent_item_form(this.value,'<?php echo $url;?>')" >
+												<?php 
+													$groupData = Mage::getModel('navigationmenupro/menucreatorgroup')->getAllGroup();
+													foreach ($groupData as $group) {
+														echo "<option value='".$group['value']."'>".$group['label']."</option>";
+													}
+												?>
+											</select>
+										</div>
+										<div class="field required-entry" id="parent_id_content">
+											<label class="label required-label"  title="">Parent Item <em>*</em></label>
+											<select id="parent_id" class="required-entry select" name="parent_id" onChange="show_hide_layout_align(this.value)" >
+												<option value="">Please Select Parent</option>
+												<option value="0">Root</option>
+											</select>
+										</div>
+									</li>
+									<li class="fields">
+										<div class="field required-entry">
+											<label class="label required-label"  title="">Visible In <em>*</em></label>
+											<select id="storeids" name="storeids[]" multiple="multiple" class="required-entry">
+												<?php 
+													foreach($store_swatcher as $value){
+													if($value['value']==0){
+												?>
+													<option value="0"><?php echo $value['label']; ?></option>
+												<?php
+													} else { ?>
+													<optgroup label="<?php echo $value['label']; ?>"></optgroup>
+												<?php
+													if(!empty($value['value'])){
+														foreach ($value['value'] as $option){
+												?>
+													<option value="<?php echo $option['value']; ?>"><?php echo "&nbsp;&nbsp;&nbsp;&nbsp;".$option['label'];?></option>
+												<?php 
+													}
+													}
+													}
+													}
+												?>
+											</select>
+										</div>
+									</li>
+									<li class="fields">
+										<div class="field" id="subcolumn">
+											<label class="control-label required-label"  title="">Sub Column Layout <em>*</em></label>
+											<select name="subcolumnlayout" class="required-entry select" id="subcolumnlayout">
+												<?php 
+													$column_layout = Mage::helper('navigationmenupro')->columnLayout();
+													foreach ($column_layout as $key => $layout) {
+														echo "<option value='".$key."'>".$layout."</option>";
+													}
+												?>
+											</select>
+										</div>
+										<div class="field" id="text_align_content">
+											<label class="control-label"  title="">Sub Menu Align <em>*</em></label>
+											<select name="text_align" id="text_align">
+												<?php 
+													$alignment = Mage::helper('navigationmenupro')->getAlignment();
+													foreach ($alignment as $key => $layout) {
+														echo "<option value='".$key."'>".$layout."</option>";
+													}
+												?>
+											</select>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div id="advance-option">
+								<ul class="fieldSet">
+									<li class="fields">
+										<div class="field">
+											<label class="label" title="">Access Permission</label>
+											<select id="permission" name="permission">
+												<?php 
+													$permissions = Mage::helper('navigationmenupro')->getPermission();
+													foreach ($permissions as $permissions) {
+														echo "<option value='".$permissions['value']."'>".$permissions['label']."</option>";
+													}
+												?>
+											</select>
+										</div>
+										<div class="field">
+											<label class="label">Target Window</label>
+											<select id="target" name="target">
+												<option value="1">Parent</option>
+												<option value="2">New Window</option>
+											</select>
+										</div>
+									</li>
+									<li class="fields">
+										<div class="field">
+											<label class="label">Custom Link Title <span style="padding-right:10px"></span> </label>
+											<input type="text" id="description" name="description" class="input-text" placeholder="Custom item title for SEO ...">
+										</div>
+									</li>
+									<li class="fields">
+										<div class="field">
+											<label class="label" title="">Set Relation {For Example : rel="nofollow noreferrer"}</label>
+											<select id="setrel" name="setrel[]" multiple>
+												<?php 
+													$relations = Mage::helper('navigationmenupro')->getRelation();
+													foreach ($relations as $relation) {
+														echo "<option value='".$relation['value']."'>".$relation['label']."</option>";
+													}
+												?>
+											</select>
+										</div>
+									</li>
+									<li class="fields">
+										<div class="field" id="image_upload">
+											<label class="label"  title="">Upload Item Thumbnail</label>
+											<input type="file" class="input-file input-text" value="" name="image" id="image">
+										</div>
+										<div class="field" id="image_upload_show_hide">
+											<label class="label"  title="">Show/Hide Thumbnail</label>
+											<select name="image_status" id="image_status" style="height:auto;">
+												<option value="0">Please select</option>
+												<option value="1">Show</option>
+												<option value="2">Hide</option>
+											</select>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</div>
+<script>
+ var editForm = new varienForm('edit_form', '');
+</script>

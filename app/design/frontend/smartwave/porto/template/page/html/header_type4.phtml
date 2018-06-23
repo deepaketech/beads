@@ -1,0 +1,162 @@
+<?php echo $this->getChildHtml('sticky.nav') ?>
+<?php
+    $store = Mage::app()->getStore();
+    $code  = $store->getCode();
+    $custom_block = Mage::getStoreConfig('porto_settings/header/static_block', $code);
+?>
+<div class="header-container type4">
+    <div class="top-links-container">
+        <div class="top-links container">
+            <?php
+                $store_currency = $this->getChildHtml('store_currency');
+                $store_language = $this->getChildHtml('store_language');
+				$compare_link = $this->getChildHtml('compare_link');
+            ?>
+            <?php echo $store_currency; ?>
+            <?php if($store_currency && $store_language):?>
+            <span class="split"></span>
+            <?php endif; ?>
+            <?php echo $store_language; ?>
+            <?php if(($store_currency || $store_language) && $compare_link):?>
+            <span class="split"></span>
+            <?php endif; ?>
+			<?php echo $compare_link; ?>
+            <div class="top-links-area">
+                <div class="top-links-icon"><a href="javascript:void(0)" class="top-link-mob"><?php echo $this->__("links"); ?></a></div>
+                <?php echo $this->getChildHtml('topLinks'); ?>
+            </div>
+            <p class="welcome-msg"><?php echo $this->getChildHtml('welcome'); ?> <?php echo $this->getAdditionalHtml(); ?></p>
+            <div class="clearer"></div>
+        </div>
+    </div>
+    <div class="header container">
+        <?php if ($this->getIsHomePage()):?>
+        <h1 class="logo"><strong><?php echo $this->getLogoAlt(); ?></strong><a href="<?php echo $this->getUrl(''); ?>" title="<?php echo $this->getLogoAlt(); ?>" class="logo"><img src="<?php echo $this->getLogoSrc(); ?>" alt="<?php echo $this->getLogoAlt(); ?>" /></a></h1>
+        <?php else:?><h1 class="logo"><strong><?php echo $this->getLogoAlt(); ?></strong>
+        <a href="<?php echo $this->getUrl(''); ?>" title="<?php echo $this->getLogoAlt(); ?>" class="logo"><strong><?php echo $this->getLogoAlt(); ?></strong><img src="<?php echo $this->getLogoSrc(); ?>" alt="<?php echo $this->getLogoAlt(); ?>" /></a></h1>
+        <?php endif; ?>
+        <div class="cart-area">
+            <?php echo '<div class="custom-block">'.$this->getLayout()->createBlock('cms/block')->setBlockId($custom_block)->toHtml().'</div>'; ?>
+            <?php echo $this->getChildHtml('minicart'); ?>
+        </div>
+        <div class="menu-icons">
+<div class="bar1"></div>
+<div class="bar1"></div>
+<div class="bar1"></div>
+<?php /* a href="javascript:void(0)" title="<?php echo $this->__('Menu'); ?>"><i class="fa fa-bars"></i></a */ ?>
+</div>
+        <div class="search-area">
+            <a href="javascript:void(0);" class="search-icon"><i class="icon-search"></i></a>
+            <?php echo $this->getChildHtml('topSearch'); ?>
+        </div>
+        
+        <?php echo $this->getChildHtml("demo_header_tooltip"); ?>
+    </div>
+    <?php //echo $this->getChildHtml('topMenu') ?>
+</div>
+<?php echo $this->getChildHtml('mobile.nav') ?>
+ <div class="menu-icon"><a href="javascript:void(0)" title="<?php echo $this->__('Menu'); ?>"><i class="fa fa-bars"></i></a></div>
+<div class="container"><?php  echo $this->getLayout()->createBlock("navigationmenupro/menucreator")->setGroup_id(1)->setTemplate("navigationmenupro/menucreator.phtml")->toHtml();?></div>
+<style>
+.skuset, .unitset, .availset{ 
+    position: relative;
+    margin: auto;
+    padding-right: 15px;
+ }
+.skusetchk, .unitsetchk, .availsetchk{ 
+    position: relative;
+    margin: auto;
+    padding-right: 15px;
+ }
+.menu-icons{ display:none; }
+#cwsMenu-1{display:block;}
+#accordion { display:none; }
+.checkoutitemimg { float: left; margin: 10px; } 
+
+//.product-tabs.horizontal{ display:block; } 
+@media only screen and (max-width: 768px) {
+.checkoutitemimg { float: none; margin: 10px; } 
+.skusetchk, .unitsetchk, .availsetchk { min-width: 218px;padding-right: 15px; }
+#accordion { display:block; }
+
+.product-tabs.horizontal{ display:none; } 
+//.panel-group.product-tab-accordion{ display:block; }
+  .menu-icons { font-size: 20px;float:right;margin:5px; } 
+//  .menu-icons { display: block; }
+  #cwsMenu-1 { display: none;   }
+.header .form-search #search{ width:250px; }
+.header-container.type4 .header > .logo{ float:left; }
+}
+@media only screen and (max-width: 640px) and (min-width: 640px){
+.skuset, .unitset, .availset { min-width: 172px;margin-right:0px;float:left; }
+.skusetchk, .unitsetchk, .availsetchk { min-width: 172px;margin-right:0px;float:left; }
+}
+@media only screen and (max-width: 384px) and (min-width: 384px){
+.skuset, .unitset, .availset { min-width: 290px;margin-right:0px;float:left; }
+.skusetchk, .unitsetchk, .availsetchk { min-width: 172px;margin-right:0px;float:left; }
+}
+@media only screen and (min-width: 360px) and  (max-width: 360px){
+.skuset, .unitset, .availset { min-width: 258px;margin-right:0px;float:left; }
+.skusetchk, .unitsetchk, .availsetchk { min-width: 258px;margin-right:0px;float:left; }
+}
+@media only screen and (max-width: 533px) and (min-width: 533px){
+.skuset, .unitset, .availset { min-width: 146px;margin-right:0px;float:left; }
+.skusetchk, .unitsetchk, .availsetchk { min-width: 146px;margin-right:0px;float:left; }
+}
+@media only screen and (max-width: 320px) and (min-width: 320px){
+.skuset, .unitset, .availset { min-width: 220px;margin-right:0px;float:left; }
+.skusetchk, .unitsetchk, .availsetchk { min-width: 220px;margin-right:0px;float:left; }
+}
+@media only screen and (max-width: 568px) and (min-width: 568px){
+.skuset, .unitset, .availset { min-width: 150px;margin-right:0px;float:left; }
+.skusetchk, .unitsetchk, .availsetchk  { min-width: 150px;margin-right:0px;float:left; }
+}
+@media only screen and (max-width: 375px){
+.skuset, .unitset, .availset { min-width: 280px;margin-right:0px;float:left; }
+.skusetchk, .unitsetchk, .availsetchk  { min-width: 280px;margin-right:0px;float:left; }
+
+}
+@media only screen and (max-width: 667px) and (min-width: 667px){
+.skuset, .unitset, .availset { min-width: 190px;margin-right:0px;float:left; }
+.skusetchk, .unitsetchk, .availsetchk  { min-width: 190px;margin-right:0px;float:left; }
+}
+@media only screen and (max-width: 420px) and (min-width: 400px){
+.skuset, .unitset, .availset { min-width: 322px;margin-right:0px;float:left; }
+.skusetchk, .unitsetchk, .availsetchk{ min-width: 322px;margin-right:0px;float:left; }
+}
+@media screen and (max-width:1199px) and (min-width: 1024px){
+    .subtotal.first td { width: 100%;float: left; }
+    .shipping td { width: 100%;float: left; } 
+    .grand_total.last td { width: 100%;float: left; } 
+    tr.subtotal.first  { width: 100%;float: left; }
+}
+
+@media only screen and (max-width: 768px) {
+    .subtotal.first td { width: 100%;float: left; }
+    .shipping td { width: 100%;float: left; } 
+    .grand_total.last td { width: 100%;float: left; } 
+    tr.subtotal.first  { width: 100%;float: left; }
+	.menu-icons{ display:block; }
+}
+
+.bar1 {
+    width: 30px;
+    height: 5px;
+    background-color: #62859d;
+    margin: 6px 0;
+}
+.amshopby-cat #plusl { position: absolute;
+    right: 1px;
+    color: #65829d;
+    font-size: 16px;
+    line-height: 32px; }
+.incart .addtocart{background-color: #E9C344 !important;}
+.products-list .item .item-area .details-area .action-area .actions .addtocart { float:left;margin-right:10px; }
+.box-collateral.box-additional{ display:none; }
+.product-shop .add-to-box .add-to-cart .incart{ float:right; }
+</style>
+<script>
+jQuery(".menu-icons").click(function(){
+    jQuery("#cwsMenu-1").toggle();
+});
+</script>

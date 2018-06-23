@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<config>
+
+    <modules>
+        <Bss_ReorderProduct>
+            <version>1.2.1</version><platform>ce</platform>
+        </Bss_ReorderProduct>
+    </modules>
+
+    <frontend>
+        <layout>
+            <updates>
+                <bssreorderproduct module="Bss_ReorderProduct">
+                    <file>bssreorderproduct.xml</file>
+                </bssreorderproduct>
+            </updates>
+        </layout>
+        <routers>
+            <bssreorderproduct>
+                <use>standard</use>
+                <args>
+                    <module>Bss_ReorderProduct</module>
+                    <frontName>bssreorderproduct</frontName>
+                </args>
+            </bssreorderproduct>
+        </routers>
+    </frontend>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <bssreorderproduct>
+                                            <title>BssCommerce - Reorder Product Settings Section</title>
+                                        </bssreorderproduct>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+	
+    <global>
+		<!--<rewrite>
+            <bssreorderproduct>
+                <from><![CDATA[#^/checkout/cart/#]]></from>
+                <to>/bssreorderproduct/list/</to>
+            </bssreorderproduct>
+        </rewrite>-->
+        <blocks>
+            <bssreorderproduct>
+                <class>Bss_ReorderProduct_Block</class>
+            </bssreorderproduct>
+        </blocks>
+        <helpers>
+            <bssreorderproduct>
+                <class>Bss_ReorderProduct_Helper</class>
+            </bssreorderproduct>
+        </helpers>
+        <models>
+            <bssreorderproduct>
+                <class>Bss_ReorderProduct_Model</class>                
+            </bssreorderproduct>
+        </models>
+        <!--<events>            
+            <catalog_block_product_list_collection>
+                <observers>
+                    <provide_collection>
+                        <type>singleton</type>
+                        <class>previousnext/observer</class>
+                        <method>getfullcollectionsql</method>
+                    </provide_collection>
+                </observers>   
+            </catalog_block_product_list_collection>             
+        </events>-->
+    </global>
+
+    <default>
+        <bssreorderproduct>
+            <general>
+                <displaycontrols>1</displaycontrols>
+            </general>
+			<productpage>
+				<sortby>1</sortby>
+				<amount>100</amount>
+			</productpage>
+        </bssreorderproduct>
+    </default>
+
+</config>

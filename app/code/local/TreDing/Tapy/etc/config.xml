@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+ <config>
+  <modules>
+    <TreDing_Tapy>
+        <active>true</active>
+        <version>1.0</version>
+    </TreDing_Tapy>
+</modules>
+<global>
+    <models>
+        <tapy>
+            <class>TreDing_Tapy_Model</class>
+        </tapy>
+    </models>
+</global>

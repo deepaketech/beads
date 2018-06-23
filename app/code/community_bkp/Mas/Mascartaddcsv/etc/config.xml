@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mas_Mascartaddcsv extension by Makarovsoft.com
+ * 
+ * @category   	Mas
+ * @package		Mas_Mascartaddcsv
+ * @copyright  	Copyright (c) 2014
+ * @license		http://makarovsoft.com/license.txt
+ * @author		makarovsoft.com
+ */
+-->
+<config>
+	<modules>
+		<Mas_Mascartaddcsv>
+			<version>1.0.0</version>
+		</Mas_Mascartaddcsv>
+	</modules>
+	<global>
+		<resources>
+			<mas_mascartaddcsv_setup>
+				<setup>
+					<module>Mas_Mascartaddcsv</module>
+					<class>Mas_Mascartaddcsv_Model_Resource_Setup</class>
+				</setup>
+			</mas_mascartaddcsv_setup>
+		</resources>
+		<blocks>
+			<mascartaddcsv>
+				<class>Mas_Mascartaddcsv_Block</class>
+			</mascartaddcsv>
+		</blocks>
+		<helpers>
+			<mascartaddcsv>
+				<class>Mas_Mascartaddcsv_Helper</class>
+			</mascartaddcsv>
+		</helpers>
+		<models>
+			<mascartaddcsv>
+				<class>Mas_Mascartaddcsv_Model</class>
+				<resourceModel>mascartaddcsv_resource</resourceModel>
+			</mascartaddcsv>
+			<mascartaddcsv_resource>
+				<class>Mas_Mascartaddcsv_Model_Resource</class>				
+			</mascartaddcsv_resource>
+		</models>
+	</global>
+	<adminhtml>
+		<layout>
+			<updates>
+				<mas_mascartaddcsv>
+					<file>mas_mascartaddcsv.xml</file>
+				</mas_mascartaddcsv>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<Mas_Mascartaddcsv>
+					<files>
+						<default>Mas_Mascartaddcsv.csv</default>
+					</files>
+				</Mas_Mascartaddcsv>
+			</modules>
+		</translate>
+	</adminhtml>
+	   <frontend>
+        <routers>
+			<mascartaddcsv>
+				<use>standard</use>
+				<args>
+					<module>Mas_Mascartaddcsv</module>
+					<frontName>mascartaddcsv</frontName>
+				</args>
+			</mascartaddcsv>
+		</routers>
+		<layout>
+			<updates>
+				<mas_mascartaddcsv>
+					<file>mas_mascartaddcsv.xml</file>
+				</mas_mascartaddcsv>
+			</updates>
+		</layout>
+	</frontend>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<Mas_Mascartaddcsv before="Mage_Adminhtml">Mas_Mascartaddcsv_Adminhtml</Mas_Mascartaddcsv>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<default>
+		<mascartaddcsv>
+			<customer>
+				<enabled>1</enabled>
+				<text_above><![CDATA[Select CSV file that contains two columns: Product SKU and Quantity to add to cart]]></text_above>
+				<column_delimiter>,</column_delimiter>
+			</customer>
+		</mascartaddcsv>
+	</default>
+</config>

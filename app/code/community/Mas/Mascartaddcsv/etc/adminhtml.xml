@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mas_Mascartaddcsv extension by Makarovsoft.com
+ * 
+ * @category   	Mas
+ * @package		Mas_Mascartaddcsv
+ * @copyright  	Copyright (c) 2014
+ * @license		http://makarovsoft.com/license.txt
+ * @author		makarovsoft.com
+ */
+-->
+<config>
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<mascartaddcsv translate="title" module="mascartaddcsv">
+										<title>Bulk Add To Cart From CSV</title>
+									</mascartaddcsv>
+								</children>
+							</config>
+						</children>
+					</system>					
+				</children>
+			</admin>
+		</resources>
+	</acl>	
+</config>

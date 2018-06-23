@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="1.0.0">
+	<default>
+		<reference name="head">
+			<action method="addCss"><stylesheet>css/superbreadcrumbs.css</stylesheet></action>
+		</reference>
+        <reference name="breadcrumbs">
+			<action method="setTemplate" ifconfig="superbreadcrumbs/general/enabled"><template>superbreadcrumbs/breadcrumbs.phtml</template></action>
+		</reference>
+	</default>
+</layout>

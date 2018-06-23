@@ -1,0 +1,23 @@
+<?php $custom = $this->getCustomVars(); 
+if($custom) { ?> 
+<div class="col-set order-info-box">
+    <div class="col">
+        <div class="box">
+            <div class="box-title">
+                <h2><?php echo $this->__('Order Reference Number') ?></h2>
+            </div>
+            <div class="box-content">
+                
+                	<?php
+                		
+                		foreach($custom as $key => $value){
+                	?>
+                		<b><?php echo 'Order Reference Number'; ?></b> : <?php echo $value;?> <br/>
+                	<?php } ?>
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+<?php } ?>

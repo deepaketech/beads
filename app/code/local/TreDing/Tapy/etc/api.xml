@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+ <config>
+  <api>
+    <resources>
+        <tapy_new translate="title" module="tapy">
+            <model>tapy/new_api</model>
+            <acl>tapy/new</acl>
+            <title>Test Api</title>
+            <methods>
+                <info translate="title" module="tapy">
+                    <title>func Test</title>
+                    <method>info</method>
+                    <acl>tapy/new/info</acl>
+                </info>
+                <update translate="title" module="tapy">
+                    <title>func Test</title>
+                    <method>update</method>
+                    <acl>tapy/new/update</acl>
+                </update>
+            </methods>
+        </tapy_new>
+    </resources>
+    <acl>
+        <resources>
+            <all>
+            </all>
+        </resources>
+    </acl>
+    <v2>
+        <resources_function_prefix>
+            <new>new</new>
+        </resources_function_prefix>
+    </v2>
+    <resources_alias>
+        <new>tapy_new</new>
+    </resources_alias>
+ </api>
+</config>

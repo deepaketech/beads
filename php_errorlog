@@ -1,0 +1,80 @@
+[08-Mar-2017 08:58:21 UTC] PHP Fatal error:  <br>The encoded file <b>/home/beadmast/public_html/beads/app/code/local/MageCoders/QuickOrder/Block/Form.php</b> requires a license file.<br>The license file <b>/home/beadmast/public_html/beads/quickorder_lic.txt</b> is not valid for this server. in Unknown on line 0
+[08-Mar-2017 09:01:58 UTC] PHP Fatal error:  <br>The encoded file <b>/home/beadmast/public_html/beads/app/code/local/MageCoders/QuickOrder/Block/Form.php</b> requires a license file.<br>The license file <b>/home/beadmast/public_html/beads/quickorder_lic.txt</b> is not valid for this server. in Unknown on line 0
+[08-Mar-2017 09:04:11 UTC] PHP Fatal error:  Uncaught Error: Function name must be a string in /home/beadmast/public_html/beads/app/code/core/Mage/Core/Model/Layout.php:555
+Stack trace:
+#0 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Controller/Varien/Action.php(390): Mage_Core_Model_Layout->getOutput()
+#1 /home/beadmast/public_html/beads/app/code/core/Mage/Cms/Helper/Page.php(137): Mage_Core_Controller_Varien_Action->renderLayout()
+#2 /home/beadmast/public_html/beads/app/code/core/Mage/Cms/Helper/Page.php(52): Mage_Cms_Helper_Page->_renderPage(Object(Mage_Cms_IndexController), 'porto_home_7')
+#3 /home/beadmast/public_html/beads/app/code/core/Mage/Cms/controllers/IndexController.php(45): Mage_Cms_Helper_Page->renderPage(Object(Mage_Cms_IndexController), 'porto_home_7')
+#4 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Cms_IndexController->indexAction()
+#5 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(254): Mage_Core_Controller_Varien_Action->di in /home/beadmast/public_html/beads/app/code/core/Mage/Core/Model/Layout.php on line 555
+[08-Mar-2017 23:26:06 CST6CDT] PHP Parse error:  syntax error, unexpected end of file in /home/beadmast/public_html/beads/test.php on line 24
+[08-Mar-2017 23:27:36 CST6CDT] PHP Parse error:  syntax error, unexpected end of file in /home/beadmast/public_html/beads/test.php on line 23
+[08-Mar-2017 23:27:55 CST6CDT] PHP Fatal error:  Cannot use try without catch or finally in /home/beadmast/public_html/beads/test.php on line 9
+[10-Mar-2017 01:00:10 CST6CDT] PHP Parse error:  syntax error, unexpected 'Jet' (T_STRING), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[10-Mar-2017 01:01:51 CST6CDT] PHP Parse error:  syntax error, unexpected 'Jet' (T_STRING), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[10-Mar-2017 01:02:57 CST6CDT] PHP Parse error:  syntax error, unexpected 'Jet' (T_STRING), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[10-Mar-2017 01:03:12 CST6CDT] PHP Parse error:  syntax error, unexpected 'Jet' (T_STRING), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[10-Mar-2017 01:04:43 CST6CDT] PHP Parse error:  syntax error, unexpected 'Jet' (T_STRING), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[10-Mar-2017 01:06:36 CST6CDT] PHP Parse error:  syntax error, unexpected 'Jet' (T_STRING), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[10-Mar-2017 01:06:46 CST6CDT] PHP Parse error:  syntax error, unexpected 'Jet' (T_STRING), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[10-Mar-2017 01:16:04 CST6CDT] PHP Parse error:  syntax error, unexpected '10' (T_LNUMBER), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[10-Mar-2017 01:29:05 CST6CDT] PHP Parse error:  syntax error, unexpected 'pc' (T_STRING), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[10-Mar-2017 01:30:37 CST6CDT] PHP Parse error:  syntax error, unexpected ''4gm'' (T_CONSTANT_ENCAPSED_STRING), expecting ')' in /home/beadmast/public_html/beads/test.php on line 12
+[12-Mar-2017 15:37:13 UTC] PHP Fatal error:  Uncaught Error: Function name must be a string in /home/beadmast/public_html/beads/lib/Varien/File/Uploader.php:259
+Stack trace:
+#0 /home/beadmast/public_html/beads/lib/Varien/File/Uploader.php(180): Varien_File_Uploader->_validateFile()
+#1 /home/beadmast/public_html/beads/app/code/core/Mage/Adminhtml/controllers/Catalog/Product/GalleryController.php(46): Varien_File_Uploader->save('/home/beadmast/...')
+#2 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Controller/Varien/Action.php(418): Mage_Adminhtml_Catalog_Product_GalleryController->uploadAction()
+#3 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Controller/Varien/Router/Standard.php(254): Mage_Core_Controller_Varien_Action->dispatch('upload')
+#4 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Controller/Varien/Front.php(172): Mage_Core_Controller_Varien_Router_Standard->match(Object(Mage_Core_Controller_Request_Http))
+#5 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Model/App.php(365): Mage_Core_Controller_Varien_Fr in /home/beadmast/public_html/beads/lib/Varien/File/Uploader.php on line 259
+[13-Mar-2017 02:06:32 UTC] PHP Deprecated:  Methods with the same name as their class will not be constructors in a future version of PHP; SphinxClient has a deprecated constructor in /home/beadmast/public_html/beads/lib/Sphinx/sphinxapi.php on line 175
+[15-Mar-2017 18:32:54 UTC] PHP Fatal error:  Uncaught Error: Function name must be a string in /home/beadmast/public_html/beads/lib/Varien/File/Uploader.php:259
+Stack trace:
+#0 /home/beadmast/public_html/beads/lib/Varien/File/Uploader.php(180): Varien_File_Uploader->_validateFile()
+#1 /home/beadmast/public_html/beads/app/code/core/Mage/Adminhtml/Model/System/Config/Backend/File.php(65): Varien_File_Uploader->save('/home/beadmast/...')
+#2 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Model/Abstract.php(316): Mage_Adminhtml_Model_System_Config_Backend_File->_beforeSave()
+#3 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Model/Resource/Transaction.php(151): Mage_Core_Model_Abstract->save()
+#4 /home/beadmast/public_html/beads/app/code/core/Mage/Adminhtml/Model/Config/Data.php(206): Mage_Core_Model_Resource_Transaction->save()
+#5 /home/beadmast/public_html/beads/app/code/core/Mage/Adminhtml/controllers/System/ConfigController.php(165): Mage_Adminhtml_Model_Config_Data->save()
+#6 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Co in /home/beadmast/public_html/beads/lib/Varien/File/Uploader.php on line 259
+[15-Mar-2017 18:34:17 UTC] PHP Fatal error:  Uncaught Error: Function name must be a string in /home/beadmast/public_html/beads/lib/Varien/File/Uploader.php:259
+Stack trace:
+#0 /home/beadmast/public_html/beads/lib/Varien/File/Uploader.php(180): Varien_File_Uploader->_validateFile()
+#1 /home/beadmast/public_html/beads/app/code/core/Mage/Adminhtml/Model/System/Config/Backend/File.php(65): Varien_File_Uploader->save('/home/beadmast/...')
+#2 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Model/Abstract.php(316): Mage_Adminhtml_Model_System_Config_Backend_File->_beforeSave()
+#3 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Model/Resource/Transaction.php(151): Mage_Core_Model_Abstract->save()
+#4 /home/beadmast/public_html/beads/app/code/core/Mage/Adminhtml/Model/Config/Data.php(206): Mage_Core_Model_Resource_Transaction->save()
+#5 /home/beadmast/public_html/beads/app/code/core/Mage/Adminhtml/controllers/System/ConfigController.php(165): Mage_Adminhtml_Model_Config_Data->save()
+#6 /home/beadmast/public_html/beads/app/code/core/Mage/Core/Co in /home/beadmast/public_html/beads/lib/Varien/File/Uploader.php on line 259
+[23-Mar-2017 06:30:59 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/beadmast/public_html/beads/app/code/local/Smartwave/Megamenu/Helper/Data.php on line 179
+[23-Mar-2017 07:12:20 UTC] PHP Parse error:  syntax error, unexpected '$i' (T_VARIABLE) in /home/beadmast/public_html/beads/app/code/local/Smartwave/Megamenu/Block/Navigation.php on line 329
+[24-Mar-2017 06:48:25 CST6CDT] PHP Parse error:  syntax error, unexpected end of file in /home/beadmast/public_html/beads/magedb.php on line 35
+[24-Mar-2017 21:25:13 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[24-Mar-2017 21:25:54 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[24-Mar-2017 21:26:48 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[24-Mar-2017 21:27:39 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[24-Mar-2017 21:28:16 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[24-Mar-2017 21:28:57 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[24-Mar-2017 21:29:35 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[24-Mar-2017 21:30:12 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[24-Mar-2017 21:30:58 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 700627 bytes) in /home/beadmast/public_html/beads/app/code/core/Mage/Core/Block/Template.php on line 256
+[26-Mar-2017 02:36:47 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[26-Mar-2017 21:08:43 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 360001 bytes) in /home/beadmast/public_html/beads/lib/Varien/Image/Adapter/Gd2.php on line 290
+[27-Mar-2017 01:11:23 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 83 bytes) in /home/beadmast/public_html/beads/lib/Zend/Db/Statement/Pdo.php on line 291
+[27-Mar-2017 04:27:03 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 81 bytes) in /home/beadmast/public_html/beads/lib/Varien/Object.php on line 270
+[27-Mar-2017 04:27:25 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 2097152 bytes) in /home/beadmast/public_html/beads/lib/Varien/Data/Collection.php on line 562
+[27-Mar-2017 04:28:06 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 2097152 bytes) in /home/beadmast/public_html/beads/lib/Varien/Data/Collection.php on line 562
+[27-Mar-2017 04:29:08 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 144 bytes) in /home/beadmast/public_html/beads/lib/Varien/Data/Collection.php on line 562
+[27-Mar-2017 04:29:59 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 2097152 bytes) in /home/beadmast/public_html/beads/lib/Varien/Data/Collection.php on line 562
+[27-Mar-2017 04:30:15 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 2097152 bytes) in /home/beadmast/public_html/beads/lib/Varien/Data/Collection.php on line 562
+[27-Mar-2017 04:30:36 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 2097152 bytes) in /home/beadmast/public_html/beads/lib/Varien/Data/Collection.php on line 562
+[27-Mar-2017 04:30:49 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 144 bytes) in /home/beadmast/public_html/beads/lib/Varien/Data/Collection.php on line 562
+[27-Mar-2017 04:47:27 UTC] PHP Fatal error:  Call to undefined method Mage_Reports_Model_Resource_Product_Collection::addFieldToSelect() in /home/beadmast/public_html/beads/app/design/frontend/smartwave/porto/template/filterproducts/list.phtml on line 8
+[17-May-2017 19:30:37 UTC] PHP Fatal error:  Out of memory (allocated 823918592) (tried to allocate 10144 bytes) in /home/beadmast/public_html/beads/app/code/core/Mage/Catalog/Helper/Product/Url.php on line 129
+[19-May-2017 14:29:06 UTC] PHP Fatal error:  Out of memory (allocated 823656448) (tried to allocate 10144 bytes) in /home/beadmast/public_html/beads/app/code/core/Mage/Catalog/Helper/Product/Url.php on line 129
+[19-May-2017 16:56:01 UTC] PHP Fatal error:  Out of memory (allocated 823132160) (tried to allocate 65552 bytes) in /home/beadmast/public_html/beads/app/code/core/Mage/Catalog/Helper/Product/Url.php on line 129
+[19-May-2017 17:16:27 UTC] PHP Fatal error:  Out of memory (allocated 824967168) (tried to allocate 10144 bytes) in /home/beadmast/public_html/beads/app/code/core/Mage/Catalog/Helper/Product/Url.php on line 129
+[19-May-2017 22:33:25 UTC] PHP Fatal error:  Out of memory (allocated 823132160) (tried to allocate 65552 bytes) in /home/beadmast/public_html/beads/app/code/core/Mage/Catalog/Helper/Product/Url.php on line 129
+[31-May-2017 16:18:46 UTC] PHP Fatal error:  Out of memory (allocated 841482240) (tried to allocate 82 bytes) in /home/beadmast/public_html/beads/lib/Zend/Db/Statement/Pdo.php on line 291

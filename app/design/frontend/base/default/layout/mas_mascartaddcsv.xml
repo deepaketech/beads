@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mas_Mascartaddcsv extension by Makarovsoft.com
+ * 
+ * @category   	Mas
+ * @package		Mas_Mascartaddcsv
+ * @copyright  	Copyright (c) 2014
+ * @license		http://makarovsoft.com/license.txt
+ * @author		makarovsoft.com
+ */
+-->
+<layout>
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action ifconfig="mascartaddcsv/customer/enabled" method="addLink" translate="label" module="mascartaddcsv"><name>mascartaddcsv</name><path>mascartaddcsv/index</path><label>Add To Cart From CSV</label></action>
+        </reference>
+    </customer_account>	
+    <mascartaddcsv_index_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="mascartaddcsv/add" name="mascartaddcsv.add" template="mas_mascartaddcsv/add.phtml"/>
+        </reference>
+    </mascartaddcsv_index_index>
+</layout>

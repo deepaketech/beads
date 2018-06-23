@@ -1,0 +1,58 @@
+<?php
+
+ /***************************************************************************
+	Extension Name 	: Import Export Products Extension for Simple Products | Configurable Products | Bundle Products | Group    Products | Downloadable Products
+	Extension URL   : http://www.magebees.com/magento-import-export-products-extension.html 
+	Copyright  		: Copyright (c) 2015 MageBees, http://www.magebees.com
+	Support Email   : support@magebees.com 
+ ***************************************************************************/ 
+
+?>
+<div id="messages">
+    <ul class="messages">
+        <li class="notice-msg">
+            <ul>
+                <li><?php echo $this->__('Your server PHP settings not allow you to run script more than %s sec. at a time.', $this->getMaxExecutionTime())?></li>
+                <li><?php echo $this->__('Your server PHP settings allow you to upload files not more than %s at a time. Please modify post_max_size (currently is %s) and upload_max_filesize (currently is %s) values in php.ini if you want to upload larger files.', $this->getDataMaxSize(), $this->getPostMaxSize(), $this->getUploadMaxSize())?></li>
+            </ul>
+        </li>
+        <li class="notice-msg">
+            <ul>
+                <li><?php echo $this->__('Make sure that data encoding in the file is consistent and saved in CSV (comma separated only) with supported encodings (UTF-8 or ANSI).')?></li>
+            </ul>
+        </li>
+		 <li class="notice-msg">
+            <ul>
+                <li><?php echo $this->__('Note: If you are going to Import Products with its images then make sure you put images in media/import folder.')?></li>
+            </ul>
+        </li>
+		<li class="notice-msg">
+			<?php echo $this->__("Note: Before import the products please refere sample csv files."); ?>
+		</li>
+    </ul>
+</div>
+<form action="<?php echo  Mage::helper("adminhtml")->getUrl("adminhtml/Importproducts/uploadProfile/");?>" method="post" enctype="multipart/form-data">
+		<legend><?php echo $this->__("Upload File") ?></legend>
+		<fieldset>
+			<table height="80">
+			<tr><td><label for="file_1"><?php echo $this->__("Select your CSV (Comma Delimited) File:") ?></label></td>
+			<td>
+			<input type="file" class="required-entry required-entry" id="file_1" name="file_1"  />
+			<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"  />
+			</td></tr>
+			<tr><td></td>
+			<td>							
+			<button style="" onclick="return valid(true)" class="scalable save" type="submit" title="Run Profile in Popup" ><span><?php echo $this->__("Upload File") ?></span></button>
+			</td></tr>
+			</table>							
+		</fieldset>
+</form>
+<script>
+function valid(){
+	var name=document.getElementById('file_1').value;
+	if(name==""){
+		alert("Please upload the file first.");
+		return false;
+	}
+}
+</script>

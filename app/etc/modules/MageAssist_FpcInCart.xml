@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MageAssist_FpcInCart>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Amasty_Fpc />
+                <Amasty_Shopby />
+            </depends>
+        </MageAssist_FpcInCart>
+    </modules>
+</config>

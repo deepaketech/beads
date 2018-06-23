@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+    <bssreorderproduct_list_index>
+        <reference name="head"> 
+			<action method="addCss"><stylesheet>css/bss-styles.css</stylesheet></action>	
+			<!--<action method ="addJs"><script>jquery-1.9.1.min.js</script></action>-->	
+			<!--<action method ="addJs"><script>jQuery.noConflict.js</script></action>-->	
+        </reference>
+        
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="bssreorderproduct/list" name="bssreorderproduct.list" ifconfig="bssreorderproduct/general/displaycontrols" template="bss/reorderproduct/view.phtml">
+                <label>My Reorder Product</label>
+                
+            </block>
+			        
+            <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+        </reference>
+    </bssreorderproduct_list_index>
+
+    <customer_account translate="label">
+        <reference name="customer_account_navigation">
+                <action method="addLink" translate="label" module="bssreorderproduct"><name>bssreorderproduct.list</name><path>bssreorderproduct/list/</path><label>My Reorder Product</label></action>
+        </reference>
+    </customer_account>
+</layout>

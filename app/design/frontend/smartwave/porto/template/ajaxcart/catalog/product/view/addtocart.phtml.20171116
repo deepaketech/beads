@@ -1,0 +1,113 @@
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = $this->__('Add to Cart'); ?>
+<?php if($_product->isSaleable()): ?>
+ <div class="add-to-cart">
+   
+    
+        <?php if(!$_product->isGrouped()): ?>
+        <label for="qty"><?php echo $this->__('Qty:') ?></label>
+        <div class="qty-holder">
+            <input type="text" name="qty" id="qty_<?php echo $_product->getId(); ?>" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+            <div class="qty-changer">
+                <a href="javascript:void(0)" class="qty_inc_<?php echo $_product->getId(); ?>"><i class="icon-up-dir"></i></a>
+                <a href="javascript:void(0)" class="qty_dec_<?php echo $_product->getId(); ?>"><i class="icon-down-dir"></i></a>
+            </div>
+        </div>
+        <?php endif; ?>
+  <?php if(Mage::getSingleton('customer/session')->isLoggedIn()):?>       
+    <?php
+
+     $store = Mage::app()->getStore();
+     $code  = $store->getCode();
+ 
+    ?>
+    <?php if ($_product->isConfigurable()):?> 
+      <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><i class="icon-cart"></i><?php echo $buttonTitle ?></span></span></button>
+        <span id='ajax_loader' style='display:none'><i class="ajax-loader small animate-spin"></i></span>
+
+    <?php endif; ?>
+
+
+	<script type="text/javascript">
+	function checkqty()
+	{	
+		var defaultqty ='<?php echo $this->getProductDefaultQty(); 1 ?>';
+		var userqty = jQuery('#qty_<?php echo $_product->getId(); ?>').val();
+		if (userqty%defaultqty!=0)
+		{
+			alert("This product is available for purchase in increments <?php echo $this->getProductDefaultQty(); 1 ?> only and minimum qty is <?php echo $this->getProductDefaultQty(); 1 ?>");	
+		}
+		else
+		{
+			<?php if(Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>
+				setLocationAjax(this,'<?php echo $this->getAddToCartUrl($_product) ?>','<?php echo $_product->getId(); ?>');
+			<?php elseif(Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?>
+				document.getElementById('addtocart_form_<?php echo $_product->getId(); ?>').submit();
+			<?php endif; ?>
+		}	
+	}
+	</script>
+
+    <?php if (!$_product->isConfigurable()):?>   
+        <?php $productId = $_product->getId();
+                        $quote = Mage::getSingleton('checkout/session')->getQuote();
+                        if (!$quote->hasProductId($productId)):?>
+
+                        <a href="<?php if(!Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code) && !Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?><?php echo $this->getAddToCartUrl($_product) ?><?php else: ?>javascript:void(0)<?php endif; ?>" class="addtocart" id="ajax_<?php echo $_product->getId(); ?>" title="<?php echo $this->__('Add to Cart') ?>" onclick="checkqty()" ><i class="icon-cart"></i><span>&nbsp;<?php echo $this->__('Add to Cart') ?></span></a>
+
+                       
+                          <?php endif; ?>   
+    <?php endif; ?>  
+       <div class="incart"> 
+                          <?php 
+                            $productId = $_product->getId();;
+                            $quote = Mage::getSingleton('checkout/session')->getQuote();
+
+                            $foundInCart = false;
+                            foreach($quote->getAllVisibleItems() as $item) {
+                                if ($item->getData('product_id') == $productId) {?>
+                             
+                               <a href="<?php if(!Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code) && !Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?><?php echo $this->getAddToCartUrl($_product) ?><?php else: ?>javascript:void(0)<?php endif; ?>" class="addtocart" title="<?php echo $this->__('Add to Cart') ?>" onclick="checkqty()"><i class="icon-cart"></i><span>&nbsp;<?php echo $this->__('In cart') ?></span></a>
+
+                                 
+                                    
+                            <?php }?>
+                            <?php }?>
+        </div>
+        <?php echo $this->getChildHtml('', true, true) ?>
+          <?php else:?>
+             <span class="login_for_price"><strong><a href="<?php echo Mage::getUrl('customer/account/login'); ?>">Login to add to cart</a></strong></span></br></br>
+
+    <?php endif;?>
+    </div>
+  
+<?php endif; ?>
+
+
+<style type="text/css">
+    .incart .addtocart {
+    background-color: #e9c344 !important;
+}
+</style>
+ <?php
+  $productData = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
+  $qtyIncdec = $productData->getQtyIncrements();
+  ?>  
+ <script>
+jQuery(function() {
+jQuery('.qty_inc_<?php echo $_product->getId(); ?>').click(function() {
+    var oldValue = jQuery('#qty_<?php echo $_product->getId(); ?>').val();
+    var newVal = parseFloat(oldValue) + <?php echo $qtyIncdec;?>;
+    jQuery('#qty_<?php echo $_product->getId(); ?>').val(newVal);
+});
+jQuery('.qty_dec_<?php echo $_product->getId(); ?>').click(function() {
+    var oldValue = jQuery('#qty_<?php echo $_product->getId(); ?>').val();
+    if(oldValue > <?php echo $qtyIncdec;?>) {
+        var newVal = parseFloat(oldValue) - <?php echo $qtyIncdec;?>;
+    }else{
+         newVal = <?php echo $qtyIncdec;?>;
+    }
+    jQuery('#qty_<?php echo $_product->getId(); ?>').val(newVal);
+});
+});
+</script>

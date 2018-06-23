@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Magegeeks_Hideprice>
+            <version>1.1.0</version> 
+        </Magegeeks_Hideprice>
+    </modules>
+    <global>
+		<helpers>
+			<hideprice>
+				<class>Magegeeks_Hideprice_Helper</class>
+			</hideprice>
+		</helpers>
+		<models>
+                    <magegeeks_hideprice>
+                            <class>Magegeeks_Hideprice_Model</class>
+                           
+                    </magegeeks_hideprice>
+     </models>
+		<!-- <events>
+				<customer_login>
+				    <observers>
+				        <magegeeks_hideprice_observer>
+				            <type>singleton</type>
+				            <class>Magegeeks_Hideprice_Model_Observer</class>
+				            <method>customerlogin</method>
+				        </magegeeks_hideprice_observer>
+				    </observers>
+				</customer_login>
+		 </events> -->
+	</global>
+	   <frontend>
+		 <routers>
+		    <routeurfrontend>
+		        <use>standard</use>
+		        <args>
+		           <module>Magegeeks_Hideprice</module>
+		           <frontName>hideprice</frontName>
+		        </args>
+		    </routeurfrontend>
+		 </routers>
+		   <layout>
+			   <updates>
+					<hideprice>
+						 <file>hideprice.xml</file>
+					</hideprice>
+				</updates>
+			</layout>
+		
+	</frontend>
+    <adminhtml>
+		<acl>
+			<resources>
+				<all>
+					<title>Magegeeks Extensions</title>
+				</all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<magegeeks_hideprice translate="title" module="hideprice">
+											<title>Magegeeks Section</title>
+											<sort_order>0</sort_order>
+										</magegeeks_hideprice>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+	</adminhtml>
+</config>

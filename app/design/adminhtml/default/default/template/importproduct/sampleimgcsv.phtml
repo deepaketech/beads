@@ -1,0 +1,34 @@
+<?php
+
+ /***************************************************************************
+	Extension Name 	: Import Export Products Extension for Simple Products | Configurable Products | Bundle Products | Group    Products | Downloadable Products
+	Extension URL   : http://www.magebees.com/magento-import-export-products-extension.html 
+	Copyright  		: Copyright (c) 2015 MageBees, http://www.magebees.com
+	Support Email   : support@magebees.com 
+ ***************************************************************************/ 
+
+?>
+<style>
+.download_image_info ul li {padding: 20px 0 0;}
+.download_image_info {background: #fffbf0 url("images/note_msg_icon.gif") no-repeat scroll 10px 10px !important;border: 1px solid #ffd967 !important;color: #3d6611 !important;padding:20px 0 25px 20px;float: left;font-size: 15px;}
+</style>
+<div id="messages">
+    <ul class="messages">
+        <li class="notice-msg">
+            <ul><li><?php echo $this->__('Tip: Use this module for update products images from Live URL.');?></li></ul>
+        </li>
+	</ul>
+</div>
+
+<div class="download_image_info">
+<p>This module is used for download products images from live URL and generate CSV according to our extension.</p>
+<p>&nbsp;</p>
+<p><b>How to Use :-</b></p>
+<ul>
+	<li>1. Make your CSV file as per given <a href="http://www.magebees.com/media/mconnect_uploadfiles/import-export-products-csv/download_images_sample.csv">Sample CSV</a> file.</li>
+	<li>2. Upload file from "Download Products Images" section.</li>
+	<li>3. Click on "Download Images and Generate csv" button.</li>
+	<li>4. Your images are downloaded and store in <b>media/import</b> folder and generate CSV file according to our extension and store in <b>var/import</b> folder.</li>
+	<li>5. Now goto CWS Extensions -> Import/Export Products -> Import Products -> Run Profile. Select your generated CSV file and click on Validate & Import File Data Button.</li>
+</ul>
+</div>

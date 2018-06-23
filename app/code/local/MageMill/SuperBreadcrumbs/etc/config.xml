@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MageMill_SuperBreadcrumbs>
+            <version>1.0.0</version>
+        </MageMill_SuperBreadcrumbs>
+    </modules>
+    
+    <frontend>
+        <routers>
+            <superbreadcrumbs>
+                <use>standard</use>
+                <args>
+                    <module>MageMill_SuperBreadcrumbs</module>
+                    <frontName>superbreadcrumbs</frontName>
+                </args>
+            </superbreadcrumbs>
+        </routers>
+        <layout>
+            <updates>
+                <superbreadcrumbs>
+                    <file>magemill_superbreadcrumbs.xml</file>
+                </superbreadcrumbs>
+            </updates>
+        </layout>
+    </frontend>
+
+    <global>
+        <blocks>
+            <page>
+                 <rewrite>
+                     <html_breadcrumbs>MageMill_SuperBreadcrumbs_Block_SuperBreadcrumbs</html_breadcrumbs>
+                 </rewrite>
+            </page>
+        </blocks>
+        <models>
+            <superbreadcrumbs>
+                <class>MageMill_SuperBreadcrumbs_Model</class>
+            </superbreadcrumbs>
+        </models>
+        <helpers>
+            <superbreadcrumbs>
+                <class>MageMill_SuperBreadcrumbs_Helper</class>
+            </superbreadcrumbs>
+        </helpers>
+        <resources>
+            <superbreadcrumbs_setup>
+                <setup>
+                    <module>MageMill_SuperBreadcrumbs</module>
+                </setup>
+            </superbreadcrumbs_setup>
+            <connection>
+                <use>core_setup</use>
+            </connection>
+        </resources>
+    </global>
+
+    <admin>
+        <routers>
+            <superbreadcrumbs>
+                <use>admin</use>
+                <args>
+                    <module>MageMill_SuperBreadcrumbs</module>
+                    <frontName>superbreadcrumbs</frontName>
+                </args>
+            </superbreadcrumbs>
+        </routers>
+    </admin>
+     
+    <adminhtml>
+        <translate>
+            <modules>
+                <MageMill_SuperBreadcrumbs>
+                    <files>
+                        <default>MageMill_SuperBreadcrumbs.csv</default>
+                    </files>
+                </MageMill_SuperBreadcrumbs>
+            </modules>
+        </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <superbreadcrumbs>
+                                            <title>MageMill Super Breadcrumbs</title>
+                                        </superbreadcrumbs>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <default>
+        <superbreadcrumbs>
+            <product>
+                <displayhome>link</displayhome>
+                <displaytitle>1</displaytitle>
+                <displaylabel>1</displaylabel>
+                <labeltext>You are currently on:</labeltext>
+            </product>
+            <category>
+                <displayhome>link</displayhome>
+                <displaytitle>1</displaytitle>
+                <displaylabel>1</displaylabel>
+                <labeltext>You are currently on:</labeltext>
+            </category>
+            <other>
+                <displayhome>link</displayhome>
+                <displaytitle>1</displaytitle>
+                <displaylabel>1</displaylabel>
+                <labeltext>You are currently on:</labeltext>
+            </other>
+        </superbreadcrumbs>
+    </default>
+</config>

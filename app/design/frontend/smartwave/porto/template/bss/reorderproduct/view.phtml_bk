@@ -1,0 +1,717 @@
+<?php
+ /*$block = Mage::app()->getLayout()->createBlock('core/store_switcher')->setTemplate('page/switch/stores.phtml');
+$html = $block->getHtml();
+echo $html*/
+?>
+<?php 
+	$_array = $this->getAllProductOrder();
+	$_arrayOptionSortBy = $this->getOptionSortBy();
+	$_arrayOptionShow = $this->getOptionShow();
+?>	
+<h3 class="bss-content-reorder-product"><?php echo Mage::helper('bssreorderproduct')->__('Reorder Product');?></h3>
+<?php $arrpage = $_array;?>
+<?php $page = $_GET['page'];?>
+<?php $limit = $_GET['limit'];?>
+<?php if(!$limit) $limit = 30;?>
+<?php if(!$page) $page = 1;?>
+<?php //if(!$_GET['order']) $_GET['order'] = 'name';?>
+<?php if(!$_GET['dir']) $_GET['dir'] = 'asc';?>
+<?php $showfrom = ($page - 1) * $limit;?>
+<?php $showto = $limit;?>
+<?php $to = $showfrom + $limit;?>
+<?php 
+	if(count($arrpage)%$limit != 0 && $page == floor(count($arrpage)/$limit) +1){		 
+		$showto = count($arrpage) - floor(count($arrpage)/$limit)*$limit;
+		$to = count($arrpage);
+	}
+?>
+
+<?php $_array = array_slice($_array, $showfrom, $showto);?>
+<?php
+	if(isset($_GET['order'])){
+		if($_GET['order'] == $this->_TYPE_PRICE){
+			usort($_array, function($a, $b) {
+				return $a[$_GET['order']]-$b[$_GET['order']];	
+			});
+		}elseif($_GET['order'] == $this->_TYPE_RECENT_ORDER){
+			usort($_array, function($a, $b) {
+				return $a[$_GET['order']]-$b[$_GET['order']];	
+			});
+			$_array = array_reverse($_array);
+		}
+		else{
+			usort($_array, function($a, $b) {
+				return strcmp($a[$_GET['order']],$b[$_GET['order']]);		
+			});	
+		}
+	}
+	if($_GET['dir'] == 'desc'){
+		$_array = array_reverse($_array);
+	}	
+?>		
+<?php if(count($_array) > 0):?>
+<div style="position:left; min-height:50px; margin-top: 20px;">
+	<?php 
+		if($limit) $show = '&limit=' . $limit;
+		if($_GET['dir']) $dir = '&dir=' . $_GET['dir'];
+		if($_GET['order']) $order = '&order=' . $_GET['order'];
+		if($_GET['page']) $p = '&page=' . $_GET['page'];
+	?>
+
+	<div class="pager">
+		<p class="amount"><?php echo 'Items ' . ($showfrom + 1) . ' to ' . $to . ' of ' . count($arrpage) . ' total' ?></p>
+		<div class="limiter">
+			<label>Show</label>
+			<select onchange="setLocation(this.value)">
+				<?php foreach($_arrayOptionShow as $optionShow):?>
+				<?php 
+					$selected;
+					if($_GET['limit'] == $optionShow['value']){
+						$selected = 'selected="selected"';
+					}else{
+						$selected = '';
+					}
+				?>
+				<?php $_getOptionShow = '?limit=' . $optionShow['value'];?>
+					<option value="<?php echo Mage::getUrl('bssreorderproduct/list').$_getOptionShow;?>" <?php echo $selected;?>><?php echo $optionShow['label']?></option>
+				<?php endforeach;?>
+			</select>
+			<?php echo 'per page';?>
+		</div>
+		<div class="pages">
+			<strong>Page:</strong>
+			<ol>
+				<?php if($page != 1):?>
+					<li>
+						<a class="previous i-previous" href="<?php echo Mage::getUrl('bssreorderproduct/list') . '?page=' . ($page - 1) . $show . $dir . $order ;?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_left.gif')?>" class="v-middle"/></a>
+					</li>
+				<?php endif;?>
+				<?php
+					if(count($arrpage)%$limit == 0)
+						$n = floor(count($arrpage) / $limit);
+					else{
+						$n = floor(count($arrpage) / $limit) + 1;
+					}
+					for($i = 1; $i <= $n; $i++){
+						if($i == $page){
+							echo '<li class="current">' . $i . '</li>';
+						}
+						else{
+							echo '<li><a href="' . Mage::getUrl('bssreorderproduct/list') . '?page=' . $i . $show . $dir . $order . '">'. $i . '</a></li>';
+						}
+					}					
+				?>
+				<?php if($page != floor(count($arrpage)/$limit) +1):?>
+					<li>
+						<a class="next i-next" href="<?php echo Mage::getUrl('bssreorderproduct/list') . '?page=' . ($page + 1) . $show . $dir . $order;?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_right.gif')?>" class="v-middle"/></a>
+					</li>
+				<?php endif;?>
+			</ol>
+		</div>
+	</div>
+	<div class="sorter" id="bss-sorter">
+        <p class="view-mode">          
+            <strong><?php echo count($_array);?><?php echo Mage::helper('bssreorderproduct')->__(' Item(s)')?></strong>
+        </p>
+        <div class="sort-by">
+            <label>Sort By</label>
+            <select onchange="setLocation(this.value)">
+				<?php foreach($_arrayOptionSortBy as $optionSortBy):?>
+				<?php 
+					$selected;
+					if(isset($_GET['order'])){
+						if($_GET['order'] == $optionSortBy['value']){
+							$selected = 'selected="selected"';
+						}else{
+							$selected = '';
+						}
+						
+					}else{
+						if($optionSortBy['value'] == $this->_TYPE_NAME){
+							$selected = 'selected="selected"';
+						}else{
+							$selected= '';
+						}
+					}?>
+					<?php $_getOptionSortBy = '?order='.$optionSortBy['value'] . $p . $show . $dir;?>
+						<option value="<?php echo Mage::getUrl('bssreorderproduct/list/index').$_getOptionSortBy;?>" <?php echo $selected;?>><?php echo $optionSortBy['label']?></option>
+				<?php endforeach;?>
+            </select>
+			<?php if($_GET['dir'] == 'asc'):?>
+				<a href="<?php echo Mage::getUrl('bssreorderproduct/list/index'). '?dir=desc' . $show . $p . $order ;?>" title="Set Descending Direction"><img src="<?php echo $this->getSkinUrl('images/i_asc_arrow.gif');?>" alt="Set Descending Direction" class="v-middle"></a>
+            <?php else:?>
+				<a href="<?php echo Mage::getUrl('bssreorderproduct/list/index'). '?dir=asc' . $show . $p . $order ;?>" title="Set Descending Direction"><img src="<?php echo $this->getSkinUrl('images/i_desc_arrow.gif');?>" alt="Set Descending Direction" class="v-middle"></a>
+			<?php endif;?>
+		</div>
+    </div>
+	<div class="bss-button-addtocart top">
+		<button type="submit" title="Submit" class="button btn-cart bss-product-addtocart-button-all" id="bss-product-addtocart-button-all"><span><span><?php echo $this->__('Add All To Cart')?></span></span></button>
+		<button type="submit" title="Submit" class="button btn-cart bss-product-addtocart-button-selected" id="bss-product-addtocart-button-selected"><span><span><?php echo $this->__('Add Selected To Cart')?></span></span></button>
+	</div>
+	<div class="bss-form-key"><?php echo $this->getBlockHtml('formkey') ?></div>
+	<?php //echo $this->getPagerHtml(); ?>
+    <table class="data-table" id="my-subscriptions-table">
+        <thead>
+            <tr class="bss-table-list-product">
+				<th><input type="checkbox" name="checkallproduct" id="bss-checked"></th>
+				<th><?php echo Mage::helper('bssreorderproduct')->__('Image') ?></th>
+                <th><?php echo Mage::helper('bssreorderproduct')->__('Product Name') ?></th>
+                <!--<th><?php //echo Mage::helper('bssreorderproduct')->__('Product Details') ?></th>-->
+                <th><?php echo Mage::helper('bssreorderproduct')->__('Price') ?></th>
+				<th><?php echo Mage::helper('bssreorderproduct')->__('Qty') ?></th>
+                <th><?php echo Mage::helper('bssreorderproduct')->__('Add To Cart') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+		<?php $i=0; $j=0; $qty = 0;?>
+		<?php foreach ($_array as $val):?>
+		<?php  
+			/* Get Sku Of Product*/
+			$sku = $val['sku'];
+			$_product = Mage::getModel('catalog/product');
+			$_product->load($val['productId']);
+			if(count($val['options'])> 0){
+				$param = number_format($val['qty']).'!'.$val['productId'].'!'.str_replace('"','$',serialize($val['options']));
+			}else{
+				$param = number_format($val['qty']).'!'.$val['productId'];
+			}
+			$dem = 0;
+			$flagbundle = 0;
+			$count = 0;
+			$dembundle = 0;
+			$countbundle = 0;
+			$countflagbundle = 0;
+			$i++;	
+			?>
+			<?php 
+			if($_product->getTypeID() == 'configurable'){
+				$conf = Mage::getModel('catalog/product_type_configurable')->setProduct($_product);
+				$simple_collection = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
+				$count = count($simple_collection);
+				foreach($simple_collection as $simple_product){
+					$stocksimpleconfiguare = Mage::getModel('cataloginventory/stock_item')->loadByProduct($simple_product);
+				if(number_format($stocksimpleconfiguare->getQty()) <2 || number_format($stocksimpleconfiguare->getQty()) < (number_format($val['qty']) -1)){
+						$dem = $dem +1;
+					}
+				}
+			}else if($_product->getTypeID() == 'bundle'){
+				$sl =array();
+				foreach($val['options']['bundle_option'] as $value) {
+						$sl[] = $value;
+				}
+				$arr = $val['options'];
+	$bundled_product = new Mage_Catalog_Model_Product();		
+											$bundled_product->load($val['productId']);					 							$selectionCollection = $bundled_product->getTypeInstance(true)->getSelectionsCollection($bundled_product->getTypeInstance(true)->getOptionsIds($bundled_product), $bundled_product											);										 
+	$bundled_items = array();
+	$countbundle = count($sl);
+	foreach($selectionCollection as $option) 
+	{	
+		if(!in_array($option->getSelectionId(),$sl)) {
+		continue;
+		}				
+	$collectionBundle = Mage::getModel('catalog/product')->load($option->product_id);
+													if($collectionBundle->getIsInStock()){
+		$dembundle = $dembundle + 1;
+		}
+	$countflagbundle = count($arr['bundle_option']);	
+	foreach ($arr['bundle_option'] as $key=>$value) {
+		if($key == $option->option_id && $option->selection_id == $value){
+			$j++;
+		$qtyOption = (int)$arr['bundle_option_qty'][$key] * (int)$val['options']['qty'];
+	$optionqty = number_format(Mage::getModel('cataloginventory/stock_item')->load($option->product_id)->getQty()) - 1;
+	echo '<input type="hidden" id="bss-qty-bundle-' .$j . '" class="bss-qty-bundle-'.$i.'" value="' . $qtyOption . '"/>';
+	echo '<input type="hidden" id="bss-qty-stock-bundle-' .$j . '" class="bss-qty-stock-bundle-'.$i.'" value="' . number_format($optionqty) . '"/>';
+															if($qtyOption < $optionqty){
+																$flagbundle = $flagbundle + 1;
+															}	
+														}	
+												}
+											}
+								}else{
+									$qty = number_format(Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty()) - 1;
+								}
+							?>							
+							<tr>
+								<?php if($_product->getIsInStock()): ?>
+									<?php if($_product->getTypeID() == 'configurable'):?>
+										<?php if($dem != $count):?>
+											<input type="hidden" class="bss-product" id="bss-product-<?php echo $i?>" value="<?php echo $param;?>"/>
+										<?php endif;?>
+									<?php else:?>
+										<?php if($_product->getTypeID() == 'bundle'):?>
+											<?php if($dembundle == $countbundle && $flagbundle == $countflagbundle):?>
+												<input type="hidden" class="bss-product" id="bss-product-<?php echo $i?>" value="<?php echo $param;?>"/>
+											<?php endif;?>
+										<?php else:?>	
+											<?php if($qty <2 || $qty < (number_format($val['qty']) -1)):?>
+											<?php else:?>
+												<input type="hidden" class="bss-product" id="bss-product-<?php echo $i?>" value="<?php echo $param;?>"/>
+											<?php endif;?>
+										<?php endif;?>	
+									<?php endif;?>	
+								<?php endif;?>
+								<td>
+								<?php if($_product->getIsInStock()):?>
+									<?php if($_product->getTypeID() == 'configurable'):?>
+										<?php if($dem != $count):?>
+											<input type="checkbox" name="checkproduct" class="bss-checked-item" id="bss-checked-item-<?php echo $i?>" value="<?php echo $param;?>">
+										<?php endif;?>
+	<?php else:?>
+		<?php if($_product->getTypeID() == 'bundle'):?>
+			<?php if($dembundle == $countbundle && $flagbundle == $countflagbundle):?>
+				<input type="checkbox" name="checkproduct" class="bss-checked-item" id="bss-checked-item-<?php echo $i?>" value="<?php echo $param;?>">
+			<?php endif?>
+			<?php else:?>
+				<?php if($qty <2 || $qty < (number_format($val['qty']) -1)):?>
+		    <!--updated code 20-8-16 -->			
+            <input type="checkbox" name="checkproduct" class="bss-checked-item" id="bss-checked-item-<?php echo $i?>" value="<?php echo $param;?>">
+                                        <!--updated code 20-8-16 -->
+	<?php else:?>
+	<input type="checkbox" name="checkproduct" class="bss-checked-item" id="bss-checked-item-<?php echo $i?>" value="<?php echo $param;?>">
+				<?php endif;?>
+			<?php endif;?>
+		<?php endif;?>
+	<?php endif;?>
+	</td>
+	<td> 
+		<img class="product-image-area" src="<?php echo Mage::helper('catalog/image')->init($_product, 'image')->resize(100);?>"/>
+	</td>
+	<td>
+		<a href="<?php echo $_product->getProductUrl();?>" id=""><span id="bss-view-details-<?php echo $i;?>"><?php echo $val['name'];?></span></a>
+		<div class="bss-product-view" id="bss-product-view-<?php echo $i;?>">
+			<div class="bss-product-view-info">
+				<p><?php echo Mage::helper('bssreorderproduct')->__('Name : ');?><?php echo $val['name'];?></p>
+				<p><?php echo Mage::helper('bssreorderproduct')->__('Description : ');?>
+			<?php
+			$str = $_product->getDescription();
+			if(strlen($str) > 50){
+				echo substr($str,0,50).'...';
+			}else{
+				echo substr($str,0,50);
+			}
+		?>
+	</p>
+	<div class="bss-product-view-close"></div>
+										</div>
+										<?php if(count($val['option'] > 0) && $val['option']):?>
+											<div class="bss-product-view-option">
+												<p><?php echo Mage::helper('bssreorderproduct')->__('Options');?><p>
+												<?php foreach($val['attributes_info'] as $opt):?>
+													<p><?php echo $opt['label'];?></p>
+													<p style="padding-left:20px;"><?php echo $opt['value'];?></p>
+												<?php endforeach;?>
+												<?php foreach($val['option'] as $op):?>
+													<p><?php echo $op['label'];?></p>
+													<p style="padding-left:20px;"><?php echo $op['value'];?></p>
+												<?php endforeach;?>
+												
+											</div>
+										<?php else:?>
+											<?php if(count($val['bundle_options'] > 0) && $val['bundle_options']):?>
+												<div class="bss-product-view-option">
+													<p><?php echo Mage::helper('bssreorderproduct')->__('Options');?><p>
+													<?php foreach($val['bundle_options'] as $op):?>
+														<p><?php echo $op['label'];?></p>
+														<?php foreach($op['value'] as $valOptionsBundle):?>
+															<p style="padding-left:20px;"><?php echo $valOptionsBundle['title'];?></p>
+														<?php endforeach;?>
+													<?php endforeach;?>
+												</div>
+											<?php endif;?>
+										<?php endif;?>
+									</div>
+								</td>
+								<td><?php echo $val['priceHtml'];?></td>
+								<td>
+									<?php if($_product->getTypeID() == 'configurable'):?>
+										<?php if($dem != $count):?>
+											<input type="hidden" class="bss-qty-product" id="bss-qty-product-<?php echo $i?>" value="<?php echo number_format($val['qty']);?>"/>
+											<input type="number" class ="input-text qty" id="bss-qty-<?php echo $i?>" min=0 value="<?php echo number_format($val['qty']);?>"/>
+										<?php else:?>
+											<input type="hidden" disabled="disabled" class ="input-text qty" id="bss-qty-<?php echo $i?>" min=0 value="<?php echo number_format($val['qty']);?>"/>
+										<?php endif;?>
+									<?php else:?>
+										<?php if($_product->getTypeID() == 'bundle'):?>
+											<?php if ($dembundle == $countbundle && $flagbundle == $countflagbundle):?>
+												<input type="hidden" class="bss-qty-product" id="bss-qty-product-<?php echo $i?>" value="<?php echo number_format($val['qty']);?>"/>
+												<input type="number" class ="input-text qty" id="bss-qty-<?php echo $i?>" min=0 value="<?php echo number_format($val['qty']);?>"/>
+											<?php else:?>
+												<input type="number" disabled="disabled" class ="input-text qty" id="bss-qty-<?php echo $i?>" min=0 value="<?php echo number_format($val['qty']);?>"/>
+											<?php endif;?>
+										<?php else:?>
+
+                                        
+
+										<?php if($qty <2 || $qty < (number_format($val['qty']) -1)):?>
+
+										 <!--updated code 20-8-16  bk
+                                         <input type="number" disabled="disabled" class ="input-text qty" id="bss-qty-<?php //echo $i?>" min=0 value="<?php //echo number_format($val['qty']);?>"/>
+                                         <!--updated code 20-8-16 --> 
+
+											<input type="number"  class ="input-text qty" id="bss-qty-<?php echo $i?>" min=0 value="<?php echo number_format($val['qty']);?>"/>
+											<?php else:?>
+												<input type="hidden" class="bss-qty-product" id="bss-qty-product-<?php echo $i?>" value="<?php echo number_format($val['qty']);?>"/>
+												<input type="number" class ="input-text qty" id="bss-qty-<?php echo $i?>" min=0 value="<?php echo number_format($val['qty']);?>"/>
+											<?php endif;?>
+										<?php endif;?>
+									<?php endif;?>
+								</td>
+								<td>
+
+								<?php $productId = $_product->getId();
+                                $quote = Mage::getSingleton('checkout/session')->getQuote();
+                                if (!$quote->hasProductId($productId)):?>
+
+									<?php if($val['status']==1):?> 
+										<?php if($_product->getIsInStock()):?>
+											<?php if($_product->getTypeID() == 'configurable'):?>
+	<?php if($dem != $count):?>
+	<button type="submit" title="Submit" class="button btn-cart aa" id="product-addtocart-button-<?php echo $i;?>"><span><span><?php echo $this->__('Add To Cart')?></span></span></button>	
+	<?php else:?>
+		<p><span><?php echo $this->__('Out Of Stock')?></span></p>
+	<?php endif;?>
+	<?php else:?>
+	<?php if($_product->getTypeID() == 'bundle'):?>
+	<?php if ($dembundle == $countbundle && $flagbundle == $countflagbundle):?>
+		<button type="submit" title="Submit" class="button btn-cart bb" id="product-addtocart-button-<?php echo $i;?>"><span><span><?php echo $this->__('Add To Cart')?></span></span></button>
+	<?php else:?>
+		<p><span><?php echo $this->__('Out Of Stock')?></span></p>
+	<?php endif;?>
+	<?php else:?>	
+	<?php if($qty <2 || $qty < (number_format($val['qty']) -1)):?>
+	<!--<p><span><?php //echo $this->__('Out Of Stock')?></span></p>-->
+        <!--updated code 20-8-16 --> 
+														<button type="submit" title="Submit" class="button btn-cart cc" id="product-addtocart-button-<?php echo $i;?>"><span><span><?php echo $this->__('Add To Cart')?></span></span></button>
+                                                    <!--updated code 20-8-16 -->
+													<?php else:?>
+														<button type="submit" title="Submit" class="button btn-cart dd" id="product-addtocart-button-<?php echo $i;?>"><span><span><?php echo $this->__('Add To Cart')?></span></span></button>
+													<?php endif;?>
+												<?php endif;?>
+											<?php endif;?>
+										<?php else:?>
+											<p><span><?php echo $this->__('Out Of Stock')?></span></p>
+										<?php endif;?>
+										
+									<?php else: ?>
+										Discontinued
+									<?php endif;?>
+								<?php endif;?>	
+                                 
+   <div class="incart"> 
+   <?php 	$productId = $_product->getId();;
+			$quote = Mage::getSingleton('checkout/session')->getQuote();
+			$foundInCart = false;
+			foreach($quote->getAllVisibleItems() as $item) {
+				if ($item->getData('product_id') == $productId) {?>
+					<?php if($val['status']==1):?> 
+						<?php if($_product->getIsInStock()):?>
+							<?php if($_product->getTypeID() == 'configurable'):?>
+								<?php if($dem != $count):?>
+									<button type="submit" title="Submit" class="button btn-cart ee" id="product-addtocart-button-<?php echo $i;?>"><span><span><?php echo $this->__('Add To Cart')?></span></span></button>	
+								<?php else:?>
+									<p><span><?php echo $this->__('Out Of Stock')?></span></p>
+								<?php endif;?>
+							<?php else:?>
+			<?php if($_product->getTypeID() == 'bundle'):?>
+	<?php if ($dembundle == $countbundle && $flagbundle == $countflagbundle):?>
+	<button type="submit" title="Submit" class="button btn-cart ff" id="product-addtocart-button-<?php echo $i;?>"><span><span><?php echo $this->__('In cart')?></span></span></button>
+	<?php else:?>
+	<p><span><?php echo $this->__('Out Of Stock')?></span></p>
+	<?php endif;?>
+	<?php else:?>	
+	<?php  if($qty <2 || $qty < (number_format($val['qty']) -1)):?>
+		<!--<p><span><?php //echo $this->__('Out Of Stock')?></span></p>-->
+               <!--updated code 20-8-16 --> 
+	<button type="submit" title="Submit" class="button btn-cart gg" id="product-addtocart-button-<?php echo $i;?>"><span><span><?php echo $this->__('In cart')?></span></span></button>
+               <!--updated code 20-8-16 -->
+	<?php else:?>
+	<button type="submit" title="Submit" class="button btn-cart hh" id="product-addtocart-button-<?php echo $i;?>"><span><span><?php echo $this->__('In cart')?></span></span></button>
+	<?php endif;?>
+	<?php endif;?>
+	<?php endif;?>
+	<?php else:?>
+	<p><span><?php echo $this->__('Out Of Stock')?></span></p>
+	<?php endif;?>
+		<?php else: ?>
+			Discontinued
+		<?php endif;?>
+                <style type="text/css">
+		.incart .button.btn-cart span{background-color: #E9C344 !important;}
+		</style> 
+             <?php }?>
+             <?php }?>
+<button style="display:none;" type="submit" title="Submit" class="button btn-cart ajaxcart-<?php echo $i;?>" id="product-addtocart-button-<?php echo $i;?>"><span><span><?php echo $this->__('In cart')?></span></span></button>
+        </div>  
+		</td>
+		</tr>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery("#product-addtocart-button-<?php echo $i?>").click(function(){
+			var id = '<?php echo $val['productId'];?>';
+			var qty = jQuery("#bss-qty-product-<?php echo $i?>").val();
+			var options = '<?php echo serialize($val['options'])?>';
+				jQuery('#loading-mask').show();
+				jQuery('#loading_mask_loader').show();
+
+				jQuery.ajax({
+				dataType: 'json',
+				type: "POST",
+				url: "<?php echo Mage::getUrl('bssreorderproduct/list/add');?>",
+				data: {
+					productId: id,
+					qty: qty,
+					options : options,
+				}, 
+				success: function(){
+			jQuery('#loading-mask').hide();
+			jQuery('#loading_mask_loader').hide();
+			 jQuery("#product-addtocart-button-<?php echo $i?>").hide();
+                        jQuery(".ajaxcart-<?php echo $i?>").show();
+	//window.location.reload();
+					//window.location.assign("<?php echo Mage::getBaseUrl().'bssreorderproduct/list/';?>");
+				 },
+				error: function(){
+					alert('add to cart error, not can post data and save');
+				 }
+			});
+		});
+	});
+</script>
+<script>
+	jQuery(document).ready(function(){
+		jQuery("#bss-view-details-<?php echo $i;?>").hover(function(){
+			jQuery("#bss-product-view-<?php echo $i;?>").css("display", "block");
+		},function(){
+			jQuery("#bss-product-view-<?php echo $i;?>").css("display", "none");
+		});
+			jQuery("#bss-qty-<?php echo $i?>").on('change',function() {
+				var _qty = <?php echo $qty?>;
+				var qty = jQuery("#bss-qty-<?php echo $i?>").val();
+				var qty_option;
+				var simple_bundle_stock;
+				jQuery(".bss-qty-bundle-<?php echo $i?>").each(function() {
+					qty_option = qty * jQuery(this).val();
+			var bss_qty_stock_bundle_id = jQuery(this).attr("id").replace('bss-qty-bundle','bss-qty-stock-bundle');	
+			simple_bundle_stock = jQuery("#"+bss_qty_stock_bundle_id).val();
+				if(qty_option < simple_bundle_stock){
+					var str = jQuery("#bss-product-<?php echo $i?>").val();
+					var res = str.split("!");
+					if(res.length >2){
+						var product = qty+'!'+res[1]+'!'+res[2];
+					}else{
+						var product = qty+'!'+res[1];
+					}
+						jQuery("#bss-product-<?php echo $i?>").val(product);
+						jQuery("#bss-checked-item-<?php echo $i?>").val(product);
+							jQuery("#bss-qty-product-<?php echo $i?>").val(qty);
+					}else{
+						 alert('quantity in stock is not enough, you can not select the number.');
+						 return false;
+					}
+				});	
+				if(qty < _qty){
+					var str = jQuery("#bss-product-<?php echo $i?>").val();
+					var res = str.split("!");
+					if(res.length >2){
+				var product = qty+'!'+res[1]+'!'+res[2];
+				}else{
+					var product = qty+'!'+res[1];
+				}
+					jQuery("#bss-product-<?php echo $i?>").val(product);
+					jQuery("#bss-checked-item-<?php echo $i?>").val(product);
+					jQuery("#bss-qty-product-<?php echo $i?>").val(qty);
+				}else{
+				 alert('quantity in stock is not enough so ,The order will be in backorder.');
+				 return false;
+				}
+			});	
+		});	
+	</script>
+	<?php endforeach;?>	
+        </tbody>
+    </table>
+	<script type="text/javascript">decorateTable('my-subscriptions-table');</script>
+	<?php //echo $this->getPagerHtml(); ?>
+
+	<div style="overflow: hidden;">
+		<div class="bss-button-addtocart buttom">
+			<button type="submit" title="Submit" class="button btn-cart bss-product-addtocart-button-all" id="bss-product-addtocart-button-all"><span><span><?php echo $this->__('Add All To Cart')?></span></span></button>
+			<button type="submit" title="Submit" class="button btn-cart bss-product-addtocart-button-selected" id="bss-product-addtocart-button-selected"><span><span><?php echo $this->__('Add Selected To Cart')?></span></span></button>
+		</div>
+	</div>
+	<div class="sorter" id="bss-sorter">
+        <p class="view-mode">          
+            <strong><?php echo count($_array);?><?php echo Mage::helper('bssreorderproduct')->__(' Item(s)')?></strong>
+        </p>
+        <div class="sort-by">
+            <label>Sort By</label>
+            <select onchange="setLocation(this.value)">
+				<?php foreach($_arrayOptionSortBy as $optionSortBy):?>
+				<?php 
+					$selected;
+					if(isset($_GET['order'])){
+						if($_GET['order'] == $optionSortBy['value']){
+							$selected = 'selected="selected"';
+						}else{
+							$selected = '';
+						}
+						
+					}else{
+						if($optionSortBy['value'] == $this->_TYPE_NAME){
+							$selected = 'selected="selected"';
+						}else{
+							$selected= '';
+						}
+					}?>
+
+					<?php $_getOptionSortBy = '?order='.$optionSortBy['value'] . $p . $show . $dir;?>
+						<option value="<?php echo Mage::getUrl('bssreorderproduct/list/index').$_getOptionSortBy;?>" <?php echo $selected;?>><?php echo $optionSortBy['label']?></option>
+				<?php endforeach;?>
+            </select>
+
+			<?php if($_GET['dir'] == 'asc'):?>
+				<a href="<?php echo Mage::getUrl('bssreorderproduct/list/index'). '?dir=desc' . $show . $p . $order ;?>" title="Set Descending Direction"><img src="<?php echo $this->getSkinUrl('images/i_asc_arrow.gif');?>" alt="Set Descending Direction" class="v-middle"></a>
+            <?php else:?>
+				<a href="<?php echo Mage::getUrl('bssreorderproduct/list/index'). '?dir=asc' . $show . $p . $order ;?>" title="Set Descending Direction"><img src="<?php echo $this->getSkinUrl('images/i_desc_arrow.gif');?>" alt="Set Descending Direction" class="v-middle"></a>
+			<?php endif;?>
+		</div>
+    </div>
+	<div class="pager">
+		<p class="amount"><?php echo 'Items ' . ($showfrom + 1) . ' to ' . $to . ' of ' . count($arrpage) . ' total' ?></p>
+		<div class="limiter">
+			<label>Show</label>
+			<select onchange="setLocation(this.value)">
+				<?php foreach($_arrayOptionShow as $optionShow):?>
+				<?php 
+					$selected;
+					if($_GET['limit'] == $optionShow['value']){
+						$selected = 'selected="selected"';
+					}else{
+						$selected = '';
+					}
+				?>
+				<?php $_getOptionShow = '?limit=' . $optionShow['value'];?>
+					<option value="<?php echo Mage::getUrl('bssreorderproduct/list').$_getOptionShow;?>" <?php echo $selected;?>><?php echo $optionShow['label']?></option>
+				<?php endforeach;?>
+			</select>
+			<?php echo 'per page';?>
+		</div>
+		<div class="pages">
+			<strong>Page:</strong>
+			<ol>
+				<?php if($page != 1):?>
+					<li>
+
+						<a class="previous i-previous" href="<?php echo Mage::getUrl('bssreorderproduct/list') . '?page=' . ($page - 1) . $show . $dir . $order ;?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_left.gif')?>" class="v-middle"/></a>
+					</li>
+				<?php endif;?>
+				<?php
+					if(count($arrpage)%$limit == 0)
+						$n = floor(count($arrpage) / $limit);
+					else{
+						$n = floor(count($arrpage) / $limit) + 1;
+					}
+					for($i = 1; $i <= $n; $i++){
+						if($i == $page){
+							echo '<li class="current">' . $i . '</li>';
+						}
+						else{
+
+							echo '<li><a href="' . Mage::getUrl('bssreorderproduct/list') . '?page=' . $i . $show . $dir . $order . '">'. $i . '</a></li>';
+						}
+					}					
+				?>
+				<?php if($page != floor(count($arrpage)/$limit) +1):?>
+					<li>
+
+						<a class="next i-next" href="<?php echo Mage::getUrl('bssreorderproduct/list') . '?page=' . ($page + 1) . $show . $dir . $order;?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_right.gif')?>" class="v-middle"/></a>
+					</li>
+				<?php endif;?>
+			</ol>
+		</div>
+	</div>
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery(".bss-product-addtocart-button-all").click(function(){
+				var i = 0;
+				var str='';
+				jQuery(".bss-product").each(function(){
+					if(i == 0){
+						str += jQuery(this).val();
+					}else{
+						str += '@'+jQuery(this).val();
+					}
+					i++;
+				});
+					jQuery('#loading-mask').show();			
+				jQuery.ajax({
+					type: "POST",
+					url: "<?php echo Mage::getUrl('bssreorderproduct/list/addtocart');?>",
+
+					data: {
+						str: str
+					}, 
+					success: function(){	
+						window.location.assign("<?php echo Mage::getBaseUrl().'checkout/cart';?>");
+					},
+					error: function(){
+						alert('add to cart error, not can post data and save');
+					}
+				});
+										
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery("#bss-checked").click( function(){
+				if(jQuery(this).is(":checked")){
+					jQuery(".bss-checked-item").prop("checked", true);
+				}else{
+					jQuery(".bss-checked-item").prop("checked", false);
+				}
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery(".bss-product-addtocart-button-selected").click(function(){
+				var i = 0;
+				var str='';
+				if(jQuery('.bss-checked-item').is(":checked")){
+					jQuery(".bss-checked-item").each(function(){
+						if(jQuery(this).is(":checked")){
+							if(i == 0){
+								str += jQuery(this).val();
+							}else{
+								str += '@'+jQuery(this).val();
+							}
+							i++;
+						}
+					});
+				}else{
+					alert('You have not selected products, please select the product you wish to add to cart.');
+				}				
+				jQuery.ajax({
+					type: "POST",
+					url: "<?php echo Mage::getUrl('bssreorderproduct/list/addtocart');?>",
+					data: {
+						str: str
+					}, 
+					success: function(){
+												
+						window.location.assign("<?php echo Mage::getBaseUrl().'checkout/cart';?>");
+					},
+					error: function(){
+						alert('add to cart error, not can post data and save');
+					}
+				});
+										
+			});
+		});
+	</script>
+</div>
+<?php else:?>
+	<p><span><?php echo Mage::helper('bssreorderproduct')->__('You do not currently have the bill has been paid, you click ')?></span><a href="<?php echo Mage::getBaseUrl()?>"><?php echo Mage::helper('bssreorderproduct')->__('here')?></a><span><?php echo Mage::helper('bssreorderproduct')->__(' to buy the product to cart');?></span></p>
+<?php endif;?>
+

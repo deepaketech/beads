@@ -1,0 +1,32 @@
+<?php $product = $this->getProductid() ?>
+<?php //$product = Mage::getModel('catalog/product')->load($product); 
+//var_dump($product);
+
+if(!Mage::getSingleton('customer/session')->isLoggedIn()){ ?>
+<span class="login_for_price"><strong><a href="<?php echo Mage::getUrl('customer/account/login'); ?>">Login to See Price</a></strong></span></br></br>
+
+<?php
+//return;
+} 
+?>
+<?php
+//$_coreHelper = $this->helper('core');
+//$_weeeHelper = $this->helper('weee');
+//$_taxHelper = $this->helper('tax');
+$_coreHelper = $this->helper('Mage_Core_Helper_Data') 
+$_weeeHelper = $this->helper('Mage_Weee_Helper_Data');
+$_taxHelper =  $this->helper('Mage_Tax_Helper_Data');
+
+$_product = Mage::getModel('catalog/product')->load($product); 
+$_storeId = $_product->getStoreId();
+$_store = $_product->getStore();
+$_id = $_product->getId();
+$_weeeSeparator = '';
+// $_priceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalprice(), true,null, null, null, null, null, false);
+$_simplePricesTax = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());
+
+var_dump($_simplePricesTax );
+
+
+?>
+

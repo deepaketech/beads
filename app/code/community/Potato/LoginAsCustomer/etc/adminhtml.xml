@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <po_loginascustomer>
+                                        <title>Potatocommerce Login As Customer</title>
+                                    </po_loginascustomer>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <translate>
+        <modules>
+            <Potato_LoginAsCustomer>
+                <files>
+                    <default>Potato_LoginAsCustomer.csv</default>
+                </files>
+            </Potato_LoginAsCustomer>
+        </modules>
+    </translate>
+</config>

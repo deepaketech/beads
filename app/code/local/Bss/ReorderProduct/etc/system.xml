@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+        <bss translate="label" module="bssreorderproduct">
+            <label>BSS COMMERCE</label>
+            <sort_order>100</sort_order>
+        </bss>
+    </tabs>
+    <sections>
+        <bssreorderproduct translate="label" module="bssreorderproduct">
+            <label>Reorder Product</label>
+            <tab>bss</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+				
+                <general>
+                    <label>General Settings</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <displaycontrols translate="label">
+                            <label>Display Controls</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>Automatically displays controls. Set to No if you use custom position</comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </displaycontrols>
+                    </fields>
+                </general>
+				<productpage>
+                    <label>Product List Settings</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+						<sortby translate="label">
+                            <label>Sort By</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>Choose option(s) for Sort by Feature.</comment>
+                            <source_model>Bss_ReorderProduct_Model_Config_Option</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sortby>
+						 <amount translate="label">
+                            <label>Maximum order amount</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment>Fill in Maximum order amount which decides an item whether it's reordered or not. Only show items in order total which is or less than $X. X is Maximum order amount.</comment>
+                        </amount>
+					</fields>
+					
+				</productpage>	
+            </groups>
+        </bssreorderproduct>
+    </sections>
+</config>

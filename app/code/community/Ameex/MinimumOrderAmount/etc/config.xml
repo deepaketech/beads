@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Ameex_MinimumOrderAmount>
+			<version>1.0.0</version>
+		</Ameex_MinimumOrderAmount>
+	</modules>
+	<frontend>
+		<routers>
+			<checkout>
+				<args>
+					<modules>
+						<ameex_minimumorderamount before="Mage_Checkout">Ameex_MinimumOrderAmount</ameex_minimumorderamount>
+					</modules>
+				</args>
+			</checkout>
+			</routers>
+	</frontend>
+<admin>
+    <routers>
+        <adminhtml>
+            <args>
+                <modules>
+     <ameex_minimumorderamount before="Mage_Adminhtml">Ameex_MinimumOrderAmount_Adminhtml</ameex_minimumorderamount>
+
+                </modules>
+            </args>
+        </adminhtml>
+    </routers>
+</admin>
+	<global>
+		<blocks>
+			<minimumorderamount>
+				<class>Ameex_MinimumOrderAmount_Block</class>
+			</minimumorderamount> 
+			<adminhtml>
+				<rewrite>
+					<customer_group_edit_form>Ameex_MinimumOrderAmount_Block_Customer_Group_Edit_Form</customer_group_edit_form>
+				</rewrite>
+			</adminhtml>
+		</blocks>
+		<helpers>
+			<minimumorderamount>
+				<class>Ameex_MinimumOrderAmount_Helper</class>
+			</minimumorderamount>
+		</helpers>
+		<models>
+			<minimumorderamount>
+				<class>Ameex_MinimumOrderAmount_Model</class>
+			</minimumorderamount> 
+			<sales>
+				<rewrite>
+					<!-- Model -->
+					<quote_address>Ameex_MinimumOrderAmount_Model_Quote_Address</quote_address>
+				</rewrite>
+			</sales>
+			<minimumorderamount>
+				<class>Ameex_MinimumOrderAmount_Model</class>
+			</minimumorderamount> 
+		</models>
+		 <resources>
+			 <minimumorderamount_setup>
+				<setup>
+					<module>Ameex_MinimumOrderAmount</module>
+					 <class>Ameex_MinimumOrderAmount_Model_Resource_Setup</class>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</minimumorderamount_setup>
+			<minimumorderamount_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</minimumorderamount_write>
+			<minimumorderamount_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</minimumorderamount_read>  
+		</resources>   
+	</global>
+</config>

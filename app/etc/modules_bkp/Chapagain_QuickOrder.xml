@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Chapagain_QuickOrder>
+            <active>false</active>
+            <codePool>community</codePool>
+        </Chapagain_QuickOrder>
+    </modules>
+</config> 

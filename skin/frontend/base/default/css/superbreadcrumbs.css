@@ -1,0 +1,6 @@
+#breadcrumbs-label { float:left; margin-right:5px; }
+#breadcrumbs { float:left; }
+#breadcrumbs ul { float:left; margin-left:15px; margin-bottom:2px; clear: both; }
+.breadcrumbs { overflow: auto; }
+.breadcrumbs li { margin-right:5px; }
+.breadcrumbs li span.slash { margin-left:5px; }

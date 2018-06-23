@@ -1,0 +1,91 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php if($crumbs && is_array($crumbs)): ?>
+<div class="breadcrumbs">
+    <div id="breadcrumbs-label">
+        <?php
+            $store_id = Mage::app()->getStore()->getStoreId();
+            
+            if(Mage::registry('current_product'))
+            {
+                $label = Mage::getStoreConfig('superbreadcrumbs/product/labeltext', $store_id);
+            }
+            elseif(Mage::registry('current_category'))
+            {
+                $label = Mage::getStoreConfig('superbreadcrumbs/category/labeltext', $store_id);
+            }
+            else
+            {
+                $label = Mage::getStoreConfig('superbreadcrumbs/other/labeltext', $store_id);
+            }
+        ?>
+
+        <?php echo $label; ?>
+    </div>
+
+    <div id="breadcrumbs">
+        <?php foreach($crumbs as $subcrumbs): ?>
+            <ul vocab="http://schema.org/" typeof="BreadcrumbList" itemscope itemtype="http://schema.org/BreadcrumbList">
+                <?php
+
+                $i = 1; 
+                unset($subcrumbs['first']);
+                unset($subcrumbs['last']);
+
+                ?>
+
+                <?php foreach($subcrumbs as $_crumbName=>$_crumbInfo): ?>
+                    
+                    <?php if($_crumbInfo['link']): ?>
+                        <li class="<?php echo $_crumbName ?>" property="itemListElement" typeof="ListItem" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                            <a href="<?php echo $_crumbInfo['link'] ?>" title="<?php echo $this->escapeHtml($_crumbInfo['title']) ?>" property="item" typeof="WebPage" itemprop="item">
+                                <span property="name" itemprop="name"><?php echo $this->escapeHtml($_crumbInfo['label']) ?></span>
+                            </a>
+
+                            <meta property="position" itemprop="position" content="<?php echo $i; ?>">
+
+                            <?php $i++; ?>
+
+                            <span class="slash">/</span>
+                        </li>
+                    <?php elseif($_crumbInfo['last']): ?>
+                        <li class="<?php echo $_crumbName ?>">
+                            <strong><?php echo $this->escapeHtml($_crumbInfo['label']) ?></strong>
+                        </li>
+                    <?php else: ?>
+                        <li class="<?php echo $_crumbName ?>">
+                            <?php echo $this->escapeHtml($_crumbInfo['label']) ?>
+                        </li>
+                    <?php endif; ?>
+
+                    
+                <?php endforeach; ?>
+            </ul>
+        <?php endforeach; ?>
+    </div>
+</div>
+<?php endif; ?>
